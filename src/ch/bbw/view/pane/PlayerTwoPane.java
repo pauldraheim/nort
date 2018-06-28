@@ -1,5 +1,6 @@
 package ch.bbw.view.pane;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -8,54 +9,71 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ch.bbw.controller.NortListener;
-import ch.bbw.controller.Starter;
 import ch.bbw.view.NortComponentFactory;
+import ch.bbw.view.NortFrame;
 
+/**
+ * The JPanel that the second player can Login and Register
+ * @author 5ia16padraheim
+ */
 public class PlayerTwoPane extends JPanel {
 	
 	/**
-	 * The standard constructor with the exception of it setting all components and rules of the JPanel
+	 * Initializes all components of the PlayerTwoPane and returns the instance of the initialized PlayerTwoPane
+	 * @return The initialized PlayerTwoPane
 	 */
-	public PlayerTwoPane() {
-		Insets insets = Starter.getFrame().getInsets();
+	public PlayerTwoPane initGui() {
+		Insets insets = NortFrame.getInstance().getInsets();
 		
-		int spaceBetween = (Starter.getFrame().getWidth() - insets.left - insets.right) / 20;
+		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 15;
 		
-		setLayout(new GridLayout(7, 2, spaceBetween, spaceBetween));
+		setLayout(new BorderLayout());
 		setBackground(Color.BLACK);
 		setName("playerTwoPane");
-		setSize(Starter.getFrame().getWidth() - insets.left - insets.right, 
-				Starter.getFrame().getHeight() - insets.top - insets.bottom);
+		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, 
+				NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
 		
-		NortComponentFactory compFactory = new NortComponentFactory();
+		JPanel playerTwoLoginRegisterPane = new JPanel();
+		playerTwoLoginRegisterPane.setName("playerTwoLoginRegisterPane");
+		playerTwoLoginRegisterPane.setBackground(Color.BLACK);
+		playerTwoLoginRegisterPane.setLayout(new GridLayout(6, 2, spaceBetween, spaceBetween / 10));
 		
-		add(compFactory.createTitleLabel("playerTwoLoginLabel", "Login"));
-		add(compFactory.createTitleLabel("playerTwoRegisterLabel", "Register"));
+		NortComponentFactory compFactory = NortComponentFactory.getInstance();
 		
-		add (compFactory.createDescriptionLabel("playerTwoLoginUsernameLabel", "Username:"));
-		add (compFactory.createDescriptionLabel("playerTwoRegisterUsernameLabel", "Username:"));
+		playerTwoLoginRegisterPane.add(compFactory.createTitleLabel("playerTwoLoginLabel", "Login"));
+		playerTwoLoginRegisterPane.add(compFactory.createTitleLabel("playerTwoRegisterLabel", "Register"));
 		
-		add (compFactory.createTextField("playerTwoLoginUsernameTf"));
-		add (compFactory.createTextField("playerTwoRegisterUsernameTf"));
+		playerTwoLoginRegisterPane.add(compFactory.createDescriptionLabel("playerTwoLoginUsernameLabel", "Username:"));
+		playerTwoLoginRegisterPane.add(compFactory.createDescriptionLabel("playerTwoRegisterUsernameLabel", "Username:"));
 		
-		add (compFactory.createDescriptionLabel("playerTwoLoginPasswordLabel", "Password:"));
-		add (compFactory.createDescriptionLabel("playerTwoRegisterPasswordLabel", "Password:"));
+		playerTwoLoginRegisterPane.add(compFactory.createTextField("playerTwoLoginUsernameTf"));
+		playerTwoLoginRegisterPane.add(compFactory.createTextField("playerTwoRegisterUsernameTf"));
 		
-		add (compFactory.createPasswordField("playerTwoLoginPasswordPf"));
-		add (compFactory.createPasswordField("playerTwoRegisterPasswordPf"));
+		playerTwoLoginRegisterPane.add(compFactory.createDescriptionLabel("playerTwoLoginPasswordLabel", "Password:"));
+		playerTwoLoginRegisterPane.add(compFactory.createDescriptionLabel("playerTwoRegisterPasswordLabel", "Password:"));
+		
+		playerTwoLoginRegisterPane.add(compFactory.createPasswordField("playerTwoLoginPasswordPf"));
+		playerTwoLoginRegisterPane.add(compFactory.createPasswordField("playerTwoRegisterPasswordPf"));
 		
 		NortListener listener = new NortListener();
 		
 		JButton playerTwoLoginBtn = compFactory.createButton("playerTwoLoginBtn", "Login");
+		playerTwoLoginBtn.setActionCommand("playerTwoLoginBtn");
 		playerTwoLoginBtn.addActionListener(listener);
-		add(playerTwoLoginBtn);
+		playerTwoLoginRegisterPane.add(playerTwoLoginBtn);
 		
 		JButton playerTwoRegisterBtn = compFactory.createButton("playerTwoRegisterBtn", "Register");
+		playerTwoRegisterBtn.setActionCommand("playerTwoRegisterBtn");
 		playerTwoRegisterBtn.addActionListener(listener);
-		add(playerTwoRegisterBtn);
+		playerTwoLoginRegisterPane.add(playerTwoRegisterBtn);
+		
+		add(playerTwoLoginRegisterPane, BorderLayout.CENTER);
 		
 		JButton playerTwoBackBtn = compFactory.createButton("playerTwoBackBtn", "Back");
+		playerTwoBackBtn.setActionCommand("playerTwoBackBtn");
 		playerTwoBackBtn.addActionListener(listener);
-		add(playerTwoBackBtn);
+		add(playerTwoBackBtn, BorderLayout.PAGE_END);
+		
+		return this;
 	}
 }

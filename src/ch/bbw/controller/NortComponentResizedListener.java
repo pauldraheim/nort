@@ -7,12 +7,14 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.JPanel;
 
+import ch.bbw.view.NortFrame;
+
 public class NortComponentResizedListener implements ComponentListener {
 
 	@Override
 	public void componentResized(ComponentEvent e) {
 		
-		for (Component c : Starter.getFrame().getContentPane().getComponents()) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
 			if (c instanceof JPanel) {
 				for (Component c2 : ((JPanel) c).getComponents()) {
 					resize(c2);
@@ -27,14 +29,14 @@ public class NortComponentResizedListener implements ComponentListener {
 		int dividend = 0;
 		
 		if (c.getFont().getSize() > 
-			(Starter.getFrame().getWidth() - Starter.getFrame().getInsets().left * 2) / 30) {
+			(NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 30) {
 			dividend = 20;
 		}
 		else {
 			dividend = 40;
 		}
 
-		c.setFont(new Font("Century Gothic", 0, (Starter.getFrame().getWidth() - Starter.getFrame().getInsets().left * 2) / dividend));
+		c.setFont(new Font("Century Gothic", 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / dividend));
 	}
 
 	@Override

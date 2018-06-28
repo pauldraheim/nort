@@ -8,29 +8,30 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ch.bbw.controller.NortListener;
-import ch.bbw.controller.Starter;
 import ch.bbw.view.NortComponentFactory;
+import ch.bbw.view.NortFrame;
 
 /**
  * The JPanel that the Login process will occur in
  * @author 5ia16padraheim
  */
 public class LoginPane extends JPanel {
-
+	
 	/**
-	 * The standard constructor with the exception of it setting all components and rules of the JPanel
+	 * Initializes all components of the LoginPane and returns the instance of the initialized LoginPane
+	 * @return The initialized LoginPane
 	 */
-	public LoginPane() {
-		Insets insets = Starter.getFrame().getInsets();
+	public LoginPane initGui() {
+		Insets insets = NortFrame.getInstance().getInsets();
 		
-		int spaceBetween = (Starter.getFrame().getWidth() - insets.left - insets.right) / 200;
+		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
 		
 		setLayout(new GridLayout(7, 1, spaceBetween, spaceBetween));
 		setBackground(Color.BLACK);
 		setName("loginPane");
-		setSize(Starter.getFrame().getWidth() - insets.left - insets.right, Starter.getFrame().getHeight() - insets.top - insets.bottom);
+		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
 		
-		NortComponentFactory compFactory = new NortComponentFactory();
+		NortComponentFactory compFactory = NortComponentFactory.getInstance();
 		
 		add(compFactory.createTitleLabel("loginWelcomeLabel", "Welcome to Nort! - Login"));
 		
@@ -66,5 +67,7 @@ public class LoginPane extends JPanel {
 		loginBtnPanel.add(loginBtn);
 		
 		add(loginBtnPanel);
+		
+		return this;
 	}
 }

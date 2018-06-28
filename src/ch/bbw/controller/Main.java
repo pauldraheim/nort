@@ -1,5 +1,7 @@
 package ch.bbw.controller;
 
+import ch.bbw.view.NortFrame;
+
 /**
  * Includes the main Method
  * @author 5ia16padraheim
@@ -7,11 +9,10 @@ package ch.bbw.controller;
 public class Main {
 	
 	/**
-	 * main Method, only initializes the Starter object
+	 * main Method, only executes initGui method of NortFrame
 	 * @param args Arguments that were added to the start of the program
 	 */
 	public static void main(String[] args) {
-		Starter starter = new Starter();
-		starter.startProgram();
+		NortFrame.getInstance().initGui();
 	}
 }

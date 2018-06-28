@@ -13,6 +13,16 @@ public class User {
 	private String password;
 	
 	/**
+	 * Constructor that sets all values but the ID of the user
+	 * @param username
+	 * @param password
+	 */
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+	
+	/**
 	 * Constructor that sets all values of a user
 	 * @param id
 	 * @param username

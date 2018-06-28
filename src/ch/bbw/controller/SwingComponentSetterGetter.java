@@ -6,6 +6,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 
 import ch.bbw.controller.interfaces.ComponentSetterGetter;
+import ch.bbw.view.NortFrame;
 
 /**
  * Implements ComponentValueGetter and contains functionality for Swing components
@@ -15,7 +16,7 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 
 	@Override
 	public String getLoginUsername() {
-		for (Component c : Starter.getFrame().getContentPane().getComponents()) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
 			if (c.getName().equals("loginUsernameTf")) {
 				return ((JTextField) c).getText();
 			}
@@ -26,7 +27,7 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 
 	@Override
 	public String getLoginPassword() {
-		for (Component c : Starter.getFrame().getContentPane().getComponents()) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
 			if (c.getName().equals("loginPasswordPf")) {
 				return new String(((JPasswordField) c).getPassword());
 			}
@@ -37,7 +38,7 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 
 	@Override
 	public String getRegisterUsername() {
-		for (Component c : Starter.getFrame().getContentPane().getComponents()) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
 			if (c.getName().equals("registerUsernameTf")) {
 				return ((JTextField) c).getText();
 			}
@@ -48,7 +49,7 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 
 	@Override
 	public String getRegisterPassword() {
-		for (Component c : Starter.getFrame().getContentPane().getComponents()) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
 			if (c.getName().equals("registerPasswordPf")) {
 				return new String(((JPasswordField) c).getPassword());
 			}
@@ -59,7 +60,7 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 
 	@Override
 	public void setLoginInfoText(String text) {
-		for (Component c : Starter.getFrame().getContentPane().getComponents()) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
 			if (c.getName().equals("loginInfoLabel")) {
 				((JLabel) c).setText(text);
 			}
@@ -68,7 +69,7 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 
 	@Override
 	public void setRegisterInfoText(String text) {
-		for (Component c : Starter.getFrame().getContentPane().getComponents()) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
 			if (c.getName().equals("registerInfoLabel")) {
 				((JLabel) c).setText(text);
 			}

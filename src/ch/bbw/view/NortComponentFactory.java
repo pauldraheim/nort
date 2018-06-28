@@ -9,8 +9,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import ch.bbw.controller.Starter;
-
 /**
  * Is able to create every custom Nort Component
  * @author 5ia16padraheim
@@ -18,6 +16,10 @@ import ch.bbw.controller.Starter;
 public class NortComponentFactory {
 	
 	private static final String FONT = "Century Gothic";
+	
+	private static final NortComponentFactory compFactory = new NortComponentFactory();
+	
+	private NortComponentFactory() {}
 	
 	/**
 	 * Creates a custom JButton
@@ -31,7 +33,7 @@ public class NortComponentFactory {
 		btn.setName(name);
 		btn.setBackground(Color.WHITE);
 		btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
-		btn.setFont(new Font(FONT, 0, (Starter.getFrame().getWidth() - Starter.getFrame().getInsets().left * 2) / 40));
+		btn.setFont(new Font(FONT, 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 40));
 		
 		return btn;
 	}
@@ -46,7 +48,7 @@ public class NortComponentFactory {
 		JLabel lbl = new JLabel(text);
 		
 		lbl.setName(name);
-		lbl.setFont(new Font(FONT, 0, (Starter.getFrame().getWidth() - Starter.getFrame().getInsets().left * 2) / 40));
+		lbl.setFont(new Font(FONT, 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 40));
 		lbl.setForeground(Color.WHITE);
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -63,7 +65,7 @@ public class NortComponentFactory {
 		JLabel lbl = new JLabel(text);
 
 		lbl.setName(name);
-		lbl.setFont(new Font(FONT, 0, (Starter.getFrame().getWidth() - Starter.getFrame().getInsets().left * 2) / 20));
+		lbl.setFont(new Font(FONT, 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 20));
 		lbl.setForeground(Color.WHITE);
 		lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -79,7 +81,7 @@ public class NortComponentFactory {
 		JTextField tf = new JTextField();
 
 		tf.setName(name);
-		tf.setFont(new Font(FONT, 0, (Starter.getFrame().getWidth() - Starter.getFrame().getInsets().left * 2) / 40));
+		tf.setFont(new Font(FONT, 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 40));
 		tf.setHorizontalAlignment(JTextField.CENTER);
 		
 		return tf;
@@ -94,9 +96,13 @@ public class NortComponentFactory {
 		JPasswordField pf = new JPasswordField();
 		
 		pf.setName(name);
-		pf.setFont(new Font(FONT, 0, (Starter.getFrame().getWidth() - Starter.getFrame().getInsets().left * 2) / 40));
+		pf.setFont(new Font(FONT, 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 40));
 		pf.setHorizontalAlignment(JPasswordField.CENTER);
 		
 		return pf;
+	}
+	
+	public static NortComponentFactory getInstance() {
+		return compFactory;
 	}
 }

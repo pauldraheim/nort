@@ -13,7 +13,11 @@ import ch.bbw.view.pane.LoginPane;
  * @author 5ia16padraheim
  */
 public class NortFrame extends JFrame {
+	
+	private static final NortFrame nortFrame = new NortFrame();
 
+	private NortFrame() {}
+	
 	/**
 	 * The standard constructor that also sets rules and the content pane for the JFrame
 	 */
@@ -28,9 +32,13 @@ public class NortFrame extends JFrame {
 		setSize(width, height);
 		setMinimumSize(new Dimension((int) (width / 1.5), (int) (height / 1.5)));
 
-		setContentPane(new LoginPane());
+		setContentPane(new LoginPane().initGui());
 		
 		setLocationRelativeTo(null);
 		setVisible(true);
+	}
+	
+	public static NortFrame getInstance() {
+		return nortFrame;
 	}
 }

@@ -13,6 +13,8 @@ import java.sql.SQLException;
  */
 public class DatabaseConnector {
 	
+	private static final DatabaseConnector dbCon = new DatabaseConnector();
+	
 	private Statement st;
 	
 	private Connection con;
@@ -22,13 +24,17 @@ public class DatabaseConnector {
 	/**
 	 * Standard constructor that also initializes Connection and Statement parameter
 	 */
-	public DatabaseConnector() {
+	private DatabaseConnector() {
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nort", "root", "");
 	        st = con.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static DatabaseConnector getInstance() {
+		return dbCon;
 	}
 
 	public Statement getSt() {

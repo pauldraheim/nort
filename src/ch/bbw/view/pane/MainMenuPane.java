@@ -15,26 +15,31 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ch.bbw.controller.NortListener;
-import ch.bbw.controller.Starter;
 import ch.bbw.view.NortComponentFactory;
+import ch.bbw.view.NortFrame;
 
+/**
+ * The JPanel containing the MainMenu
+ * @author 5ia16padraheim
+ */
 public class MainMenuPane extends JPanel {
-
+	
 	/**
-	 * The standard constructor with the exception of it setting all components and rules of the JPanel
+	 * Initializes all components of the MainMenuPane and returns the instance of the initialized MainMenuPane
+	 * @return The initialized MainMenuPane
 	 */
-	public MainMenuPane() {
-		Insets insets = Starter.getFrame().getInsets();
+	public MainMenuPane initGui() {
+		Insets insets = NortFrame.getInstance().getInsets();
 		
-		int spaceBetween = (Starter.getFrame().getWidth() - insets.left - insets.right) / 200;
+		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
 		
 		setLayout(new GridLayout(2, 1, spaceBetween, spaceBetween));
 		setBackground(Color.BLACK);
 		setName("mainMenuPane");
-		setSize(Starter.getFrame().getWidth() - insets.left - insets.right, 
-				Starter.getFrame().getHeight() - insets.top - insets.bottom);
+		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, 
+				NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
 		
-		NortComponentFactory compFactory = new NortComponentFactory();
+		NortComponentFactory compFactory = NortComponentFactory.getInstance();
 		
 		try {
 			JLabel logoLabel = new JLabel(new ImageIcon(ImageIO.read(new File("resources/logo.png"))));
@@ -83,5 +88,7 @@ public class MainMenuPane extends JPanel {
 		mainMenuBtnPanel.add(mainMenuQuitBtn);
 		
 		add(mainMenuBtnPanel);
+		
+		return this;
 	}
 }
