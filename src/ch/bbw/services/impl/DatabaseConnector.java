@@ -1,4 +1,4 @@
-package ch.bbw.controller;
+package ch.bbw.services.impl;
 
 import java.sql.Statement;
 

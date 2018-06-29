@@ -1,14 +1,15 @@
-package ch.bbw.controller;
+package ch.bbw.services.impl;
 
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import ch.bbw.controller.interfaces.Service;
 import ch.bbw.model.User;
+import ch.bbw.services.NortServiceProvider;
+import ch.bbw.services.UserService;
 
-public class MySQLUserService implements Service {
+public class MySQLUserService implements UserService {
 
 	@Override
 	public List<Object> getAllFromDataSource() {
@@ -72,5 +73,44 @@ public class MySQLUserService implements Service {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public User getUser(String username) {
+		
+		return null;
+	}
+
+	@Override
+	public User login(String username, String password) {
+		User user = null;
+		
+		ResultSet rs = null;
+		
+        try {
+            String query = "select * from user where username = '" + username +"' and password = '" + password + "'";
+            
+            rs = DatabaseConnector.getInstance().getSt().executeQuery(query);
+            
+            while (rs.next()) {
+            	user = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"));
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+        	try {
+	        	if (rs != null) {
+					rs.close();
+	        	}
+        	}
+        	catch(Exception e) {
+        		e.printStackTrace();
+        	}
+        }
+        
+        return user;
+		
 	}
 }

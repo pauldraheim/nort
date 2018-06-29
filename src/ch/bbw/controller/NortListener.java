@@ -41,6 +41,11 @@ public class NortListener implements ActionListener {
 				inputHandler.handleGoToPlayerTwo();				
 				
 				break;
+			case "mainMenuLeaderboardsBtn":
+				inputHandler.handleGoToLeaderboard();
+				
+				break;
+			case "leaderboardBackBtn":
 			case "playerTwoBackBtn":
 				inputHandler.handleGoToMainmenu();
 				

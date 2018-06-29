@@ -3,91 +3,56 @@ package ch.bbw.view.pane;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import ch.bbw.controller.NortListener;
 import ch.bbw.view.NortComponentFactory;
 import ch.bbw.view.NortFrame;
 
 /**
- * The JPanel containing the MainMenu
+ * The JPanel containing the Leaderboard
  * @author 5ia16padraheim
  */
 public class LeaderboardPane extends JPanel {
 	
 	/**
-	 * Initializes all components of the MainMenuPane and returns the instance of the initialized MainMenuPane
-	 * @return The initialized MainMenuPane
+	 * Initializes all components of the LeaderboardPane and returns the instance of the initialized LeaderboardPane
+	 * @return The initialized LeaderboardPane
 	 */
 	public LeaderboardPane initGui() {
 		Insets insets = NortFrame.getInstance().getInsets();
 		
 		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
 		
-		setLayout(new GridLayout(2, 1, spaceBetween, spaceBetween));
+		setLayout(new GridLayout(3, 1, spaceBetween, spaceBetween));
 		setBackground(Color.BLACK);
-		setName("mainMenuPane");
+		setName("leaderboardPane");
 		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, 
 				NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
 		
 		NortComponentFactory compFactory = NortComponentFactory.getInstance();
 		
-		try {
-			JLabel logoLabel = new JLabel(new ImageIcon(ImageIO.read(new File("resources/logo.png"))));
-			logoLabel.setName("logoLabel");
-			add(logoLabel);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Object rowData[][] = {{"Placement", "User", "Game wins", "Round wins"}, 
+				{"1.", "User1", "7", "47"}, 
+				{"2.", "User2", "8", "32"}, 
+				{"3.", "User3", "4", "27"}, 
+				{"42.", "Player1", "2", "5"}, 
+				{"57.", "Player2", "1", "3"}};
 		
-		JPanel mainMenuBtnPanel = new JPanel();
-		mainMenuBtnPanel.setName("mainMenuBtnPanel");
-		mainMenuBtnPanel.setBackground(Color.BLACK);
-		mainMenuBtnPanel.setAlignmentY(CENTER_ALIGNMENT);
-		mainMenuBtnPanel.setLayout(new BoxLayout(mainMenuBtnPanel, BoxLayout.Y_AXIS));
+		JTable leaderboardTable = new JTable(6, 4);
 		
-		NortListener listener = new NortListener();
 		
-		JButton mainMenuPlayBtn = compFactory.createButton("mainMenuPlayBtn", "Play");
-		mainMenuPlayBtn.setActionCommand("mainMenuPlayBtn");
-		mainMenuPlayBtn.addActionListener(listener);
+		add(leaderboardTable);
 		
-		JButton mainMenuLeaderboardsBtn = compFactory.createButton("mainMenuLeaderboardsBtn", "Leaderboards");
-		mainMenuLeaderboardsBtn.setActionCommand("mainMenuLeaderboardsBtn");
-		mainMenuLeaderboardsBtn.addActionListener(listener);
+		add(compFactory.createTitleLabel("leaderboardTitleLabel", "Leaderboard"));
 		
-		JButton mainMenuPlayerTwoBtn = compFactory.createButton("mainMenuPlayerTwoBtn", "Player 2");
-		mainMenuPlayerTwoBtn.setActionCommand("mainMenuPlayerTwoBtn");
-		mainMenuPlayerTwoBtn.addActionListener(listener);
-		
-		JButton mainMenuLogoutBtn = compFactory.createButton("mainMenuLogoutBtn", "Logout");
-		mainMenuLogoutBtn.setActionCommand("mainMenuLogoutBtn");
-		mainMenuLogoutBtn.addActionListener(listener);
-		
-		JButton mainMenuQuitBtn = compFactory.createButton("mainMenuQuitBtn", "Quit");
-		mainMenuQuitBtn.setActionCommand("mainMenuQuitBtn");
-		mainMenuQuitBtn.addActionListener(listener);
-		
-		mainMenuBtnPanel.add(mainMenuPlayBtn);
-		mainMenuBtnPanel.add(Box.createVerticalGlue());
-		mainMenuBtnPanel.add(mainMenuLeaderboardsBtn);
-		mainMenuBtnPanel.add(Box.createVerticalGlue());
-		mainMenuBtnPanel.add(mainMenuPlayerTwoBtn);
-		mainMenuBtnPanel.add(Box.createVerticalGlue());
-		mainMenuBtnPanel.add(mainMenuLogoutBtn);
-		mainMenuBtnPanel.add(Box.createVerticalGlue());
-		mainMenuBtnPanel.add(mainMenuQuitBtn);
-		
-		add(mainMenuBtnPanel);
+		JButton leaderboardBackBtn = compFactory.createButton("leaderboardBackBtn", "Back");
+		leaderboardBackBtn.setActionCommand("leaderboardBackBtn");
+		leaderboardBackBtn.addActionListener(new NortListener());
+		add(leaderboardBackBtn);
 		
 		return this;
 	}

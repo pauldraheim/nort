@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import ch.bbw.view.enums.NortWindow;
 import ch.bbw.view.interfaces.Navigator;
+import ch.bbw.view.pane.LeaderboardPane;
 import ch.bbw.view.pane.LoginPane;
 import ch.bbw.view.pane.MainMenuPane;
 import ch.bbw.view.pane.PlayerTwoPane;
@@ -11,8 +12,7 @@ import ch.bbw.view.pane.RegisterPane;
 
 /**
  * Implements the Navigator pattern and contains logic for Swing technology
- * @author 5
- *
+ * @author 5ia16padraheim
  */
 public class SwingNavigator implements Navigator {
 
@@ -31,7 +31,9 @@ public class SwingNavigator implements Navigator {
 				break;
 			case GAMEOPTIONS:
 				break;
-			case LEADERBOARDS:
+			case LEADERBOARD:
+				newContentPane = new LeaderboardPane().initGui();
+				
 				break;
 			case LOGIN:
 				newContentPane = new LoginPane().initGui();

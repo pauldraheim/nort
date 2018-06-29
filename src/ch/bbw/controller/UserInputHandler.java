@@ -6,8 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.DatatypeConverter;
 
 import ch.bbw.controller.interfaces.ComponentSetterGetter;
-import ch.bbw.controller.interfaces.Service;
 import ch.bbw.model.User;
+import ch.bbw.services.AbstractNortServiceProvider;
+import ch.bbw.services.UserService;
 import ch.bbw.view.SwingNavigator;
 import ch.bbw.view.enums.NortWindow;
 
@@ -16,6 +17,9 @@ import ch.bbw.view.enums.NortWindow;
  * @author 5ia16padraheim
  */
 public class UserInputHandler {
+	private UserService userService = AbstractNortServiceProvider.getInstance().getUserService();
+	
+	public UserInputHandler() {}
 	
 	/**
 	 * Handles what to do when the user clicks on a quit button
@@ -28,8 +32,6 @@ public class UserInputHandler {
 	 * Handles what to do when the user clicks on the login button
 	 */
 	public void handleLogin() {
-		Service userService = new MySQLUserService();
-		
 		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
 		
 		String password = valueSetterGetter.getLoginPassword();
@@ -37,22 +39,13 @@ public class UserInputHandler {
 
 		String hashedEnteredPassword = hashPassword(password);
 		
-		boolean hasMatchingUser = false;
+		User user = userService.login(username, hashedEnteredPassword);
 		
-		for (Object userObject : userService.getAllFromDataSource()){
-			User user = (User) userObject;
-			
-			if (user.getPassword().equals(hashedEnteredPassword) && 
-					user.getUsername().equals(username)) {
-				hasMatchingUser = true;
-				
-				Game.getInstance().setPlayer1(user);
-			}
-		}
-		
-		if(!hasMatchingUser) {
+		if(user == null) {
 			valueSetterGetter.setLoginInfoText("Incorrect combination of username and password");
 		} else {
+			Game.getInstance().setPlayer1(user);
+			
 			SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 		}
 	}
@@ -61,7 +54,6 @@ public class UserInputHandler {
 	 * Handles what to do when the user clicks on the register button
 	 */
 	public void handleRegister() {
-		Service userService = new MySQLUserService();
 		
 		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
 		
@@ -100,7 +92,6 @@ public class UserInputHandler {
 	 * Handles what to do when the user clicks on the login button
 	 */
 	public void handlePlayerTwoLogin() {
-		Service userService = new MySQLUserService();
 		
 		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
 		
@@ -134,7 +125,6 @@ public class UserInputHandler {
 	 * Handles what to do when the user clicks on the register button
 	 */
 	public void handlePlayerTwoRegister() {
-		Service userService = new MySQLUserService();
 		
 		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
 		
@@ -201,6 +191,10 @@ public class UserInputHandler {
 
 	public void handleGoToMainmenu() {
 		SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
+	}
+	
+	public void handleGoToLeaderboard() {
+		SwingNavigator.getInstance().navigate(NortWindow.LEADERBOARD);
 	}
 	
 	/**
