@@ -13,28 +13,52 @@ public class NortListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		UserInputHandler inputHandler = new UserInputHandler();
 		
-		if (e.getActionCommand().equals("loginQuitBtn") || e.getActionCommand().equals("registerQuitBtn") || 
-				e.getActionCommand().equals("mainMenuQuitBtn")) {
-			inputHandler.handleQuit();
-		}
-		else if (e.getActionCommand().equals("loginBtn")) {
-			inputHandler.handleLogin();
-		}
-		else if (e.getActionCommand().equals("registerBtn")) {
-			inputHandler.handleRegister();
-		}
-		else if (e.getActionCommand().equals("goToRegisterBtn")) {
-			inputHandler.handleGoToRegister();
-		}
-		else if (e.getActionCommand().equals("goToLoginBtn") || 
-				e.getActionCommand().equals("mainMenuLogoutBtn")) {
-			inputHandler.handleGoToLogin();
-		}
-		else if (e.getActionCommand().equals("mainMenuPlayerTwoBtn")) {
-			inputHandler.handleGoToPlayerTwo();
-		}
-		else if (e.getActionCommand().equals("playerTwoBackBtn")) {
-			inputHandler.handleGoToMainmenu();
+		switch(e.getActionCommand()) {
+			case "loginQuitBtn":
+			case "registerQuitBtn":
+			case "mainMenuQuitBtn":
+				inputHandler.handleQuit();
+				
+				break;
+			case "loginBtn":
+				inputHandler.handleLogin();
+				
+				break;
+			case "registerBtn":
+				inputHandler.handleRegister();
+				
+				break;
+			case "goToRegisterBtn":
+				inputHandler.handleGoToRegister();
+				
+				break;
+			case "goToLoginBtn":
+			case "mainMenuLogoutBtn":
+				inputHandler.handleGoToLogin();
+				
+				break;
+			case "mainMenuPlayerTwoBtn":
+				inputHandler.handleGoToPlayerTwo();				
+				
+				break;
+			case "playerTwoBackBtn":
+				inputHandler.handleGoToMainmenu();
+				
+				break;
+			case "playerTwoLoginBtn":
+				inputHandler.handlePlayerTwoLogin();
+				
+				break;
+			case "playerTwoRegisterBtn":
+				inputHandler.handlePlayerTwoRegister();
+				
+				break;
+			case "playerTwoLogoutBtn":
+				inputHandler.handlePlayerTwoLogout();
+				
+				break;
+			default:
+				break;
 		}
 	}
 }

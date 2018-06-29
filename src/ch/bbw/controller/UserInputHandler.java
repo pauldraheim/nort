@@ -45,6 +45,8 @@ public class UserInputHandler {
 			if (user.getPassword().equals(hashedEnteredPassword) && 
 					user.getUsername().equals(username)) {
 				hasMatchingUser = true;
+				
+				Game.getInstance().setPlayer1(user);
 			}
 		}
 		
@@ -79,11 +81,101 @@ public class UserInputHandler {
 		if (!isUsernameTaken) {
 			userService.addToDataSource(new User(username, hashPassword(password)));
 			
+			for (Object userObject : userService.getAllFromDataSource()) {
+				User user = (User) userObject;
+				
+				if (user.getUsername().equals(username)) {
+					Game.getInstance().setPlayer1(user);
+				}
+			}
+			
 			SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 		}
 		else {
 			valueSetterGetter.setRegisterInfoText("Username already taken!");
 		}
+	}
+	
+	/**
+	 * Handles what to do when the user clicks on the login button
+	 */
+	public void handlePlayerTwoLogin() {
+		Service userService = new MySQLUserService();
+		
+		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
+		
+		String password = valueSetterGetter.getPlayerTwoLoginPassword();
+		String username = valueSetterGetter.getPlayerTwoLoginUsername();
+
+		String hashedEnteredPassword = hashPassword(password);
+		
+		boolean hasMatchingUser = false;
+		
+		for (Object userObject : userService.getAllFromDataSource()){
+			User user = (User) userObject;
+			
+			if (user.getPassword().equals(hashedEnteredPassword) && 
+					user.getUsername().equals(username) && !Game.getInstance().getPlayer1().getUsername().equals(username)) {
+				hasMatchingUser = true;
+				
+				Game.getInstance().setPlayer2(user);
+			}
+		}
+		
+		if(!hasMatchingUser) {
+			valueSetterGetter.setPlayerTwoLoginInfoText("Incorrect login details");
+		}
+		else {
+			SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
+		}
+	}
+	
+	/**
+	 * Handles what to do when the user clicks on the register button
+	 */
+	public void handlePlayerTwoRegister() {
+		Service userService = new MySQLUserService();
+		
+		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
+		
+		String password = valueSetterGetter.getPlayerTwoRegisterPassword();
+		String username = valueSetterGetter.getPlayerTwoRegisterUsername();
+		
+		boolean isUsernameTaken = false;
+		
+		for (Object userObject : userService.getAllFromDataSource()) {
+			User user = (User) userObject;
+			
+			if (user.getUsername().equals(username)) {
+				isUsernameTaken = true;
+			}
+		}
+		
+		if (!isUsernameTaken) {
+			userService.addToDataSource(new User(username, hashPassword(password)));
+			
+			for (Object userObject : userService.getAllFromDataSource()) {
+				User user = (User) userObject;
+				
+				if (user.getUsername().equals(username)) {
+					Game.getInstance().setPlayer2(user);
+				}
+			}
+			
+			SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
+		}
+		else {
+			valueSetterGetter.setPlayerTwoRegisterInfoText("Username already taken!");
+		}
+	}
+	
+	/**
+	 * Handles what to do when the user clicks the player two logout button
+	 */
+	public void handlePlayerTwoLogout() {
+		Game.getInstance().setPlayer2(null);
+
+		SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 	}
 	
 	/**
@@ -117,7 +209,7 @@ public class UserInputHandler {
 	 * @return The hashed password
 	 */
 	private String hashPassword(String enteredPassword) {
-		String hashedEnteredPassword = "";
+		String hashedEnteredPassword = null;
 		
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
