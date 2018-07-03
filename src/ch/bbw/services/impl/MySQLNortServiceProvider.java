@@ -4,10 +4,21 @@ import ch.bbw.services.NortServiceProvider;
 import ch.bbw.services.UserService;
 
 public class MySQLNortServiceProvider implements NortServiceProvider {
-	//nur eine instanz
+	
+	private static MySQLNortServiceProvider mySqlNortServiceProvider;
+	
+	private MySQLNortServiceProvider() {}
 	
 	@Override
 	public UserService getUserService() {
 		return new MySQLUserService();
+	}
+	
+	public static MySQLNortServiceProvider getInstance() {
+		if (mySqlNortServiceProvider == null) {
+			mySqlNortServiceProvider = new MySQLNortServiceProvider();
+		}
+		
+		return mySqlNortServiceProvider;
 	}
 }

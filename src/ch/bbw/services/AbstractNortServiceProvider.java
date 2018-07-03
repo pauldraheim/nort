@@ -9,7 +9,7 @@ public abstract class AbstractNortServiceProvider {
 	
 	public static NortServiceProvider getInstance() {
 		if (serviceProvider == null){
-			serviceProvider = new MySQLNortServiceProvider();
+			serviceProvider = MySQLNortServiceProvider.getInstance();
 		}
 		return serviceProvider;
 	}

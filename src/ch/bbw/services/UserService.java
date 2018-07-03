@@ -16,8 +16,6 @@ public interface UserService {
 	 */
 	public List<Object> getAllFromDataSource();
 	
-	public User getUser(String username);
-	
 	public User login(String username, String password);
 	
 	/**

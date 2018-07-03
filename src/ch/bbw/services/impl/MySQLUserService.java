@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import ch.bbw.model.User;
-import ch.bbw.services.NortServiceProvider;
 import ch.bbw.services.UserService;
 
 public class MySQLUserService implements UserService {
@@ -76,21 +75,22 @@ public class MySQLUserService implements UserService {
 	}
 
 	@Override
-	public User getUser(String username) {
-		
-		return null;
-	}
-
-	@Override
 	public User login(String username, String password) {
 		User user = null;
 		
 		ResultSet rs = null;
 		
+		PreparedStatement st = null;
+		
         try {
-            String query = "select * from user where username = '" + username +"' and password = '" + password + "'";
+            String query = "select * from user where username = ? and password = ?";
             
-            rs = DatabaseConnector.getInstance().getSt().executeQuery(query);
+            st = DatabaseConnector.getInstance().getCon().prepareStatement(query);
+            
+            st.setString(1, username);
+            st.setString(2, password);
+            
+            rs = st.executeQuery();
             
             while (rs.next()) {
             	user = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"));
