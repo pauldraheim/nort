@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -100,6 +101,27 @@ public class NortComponentFactory {
 		pf.setHorizontalAlignment(JPasswordField.CENTER);
 		
 		return pf;
+	}
+	
+	/**
+	 * Creates a custom JTable
+	 * @param rowData The row data of the table
+	 * @param columnNames The column names of the table
+	 * @param name The name of the table
+	 * @return The new table
+	 */
+	public JTable createTable(Object[][] rowData, String[] columnNames, String name) {
+		JTable table = new JTable(rowData, columnNames);
+		
+		Font font = new Font(FONT, 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 40);
+		
+		table.setFont(font);
+		table.getTableHeader().setFont(font);
+		table.setRowHeight((NortFrame.getInstance().getHeight() - NortFrame.getInstance().getInsets().top -
+				NortFrame.getInstance().getInsets().bottom) / 18);
+		table.setName(name);
+		
+		return table;
 	}
 	
 	public static NortComponentFactory getInstance() {

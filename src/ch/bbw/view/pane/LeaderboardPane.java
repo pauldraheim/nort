@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Insets;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import ch.bbw.controller.NortListener;
@@ -35,24 +37,33 @@ public class LeaderboardPane extends JPanel {
 		
 		NortComponentFactory compFactory = NortComponentFactory.getInstance();
 		
-		Object rowData[][] = {{"Placement", "User", "Game wins", "Round wins"}, 
-				{"1.", "User1", "7", "47"}, 
+		add(compFactory.createTitleLabel("leaderboardTitleLabel", "Leaderboard"));
+		
+		String[] columnNames = {"Place", "User", "Game wins", "Round wins"};
+		
+		Object[][] rowData = {{"1.", "User1", "7", "47"}, 
 				{"2.", "User2", "8", "32"}, 
 				{"3.", "User3", "4", "27"}, 
 				{"42.", "Player1", "2", "5"}, 
 				{"57.", "Player2", "1", "3"}};
 		
-		JTable leaderboardTable = new JTable(6, 4);
+		JTable leaderboardTable = compFactory.createTable(rowData, columnNames, "leaderboardTable");
 		
+		add(new JScrollPane(leaderboardTable));
 		
-		add(leaderboardTable);
-		
-		add(compFactory.createTitleLabel("leaderboardTitleLabel", "Leaderboard"));
+		JPanel leaderboardsBtnPanel = new JPanel();
+		leaderboardsBtnPanel.setName("leaderboardsBtnPanel");
+		leaderboardsBtnPanel.setBackground(Color.BLACK);
+		leaderboardsBtnPanel.setLayout(new GridLayout(2, 1, spaceBetween, spaceBetween));
+
+		leaderboardsBtnPanel.add(Box.createVerticalGlue());
 		
 		JButton leaderboardBackBtn = compFactory.createButton("leaderboardBackBtn", "Back");
 		leaderboardBackBtn.setActionCommand("leaderboardBackBtn");
 		leaderboardBackBtn.addActionListener(new NortListener());
-		add(leaderboardBackBtn);
+		leaderboardsBtnPanel.add(leaderboardBackBtn);
+		
+		add(leaderboardsBtnPanel);
 		
 		return this;
 	}

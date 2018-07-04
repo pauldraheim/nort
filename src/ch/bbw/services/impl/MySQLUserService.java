@@ -104,6 +104,9 @@ public class MySQLUserService implements UserService {
 	        	if (rs != null) {
 					rs.close();
 	        	}
+	        	if (st != null) {
+	        		st.close();
+	        	}
         	}
         	catch(Exception e) {
         		e.printStackTrace();

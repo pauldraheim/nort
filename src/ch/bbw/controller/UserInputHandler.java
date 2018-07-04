@@ -17,9 +17,8 @@ import ch.bbw.view.enums.NortWindow;
  * @author 5ia16padraheim
  */
 public class UserInputHandler {
-	private UserService userService = AbstractNortServiceProvider.getInstance().getUserService();
 	
-	public UserInputHandler() {}
+	private UserService userService = AbstractNortServiceProvider.getInstance().getUserService();
 	
 	/**
 	 * Handles what to do when the user clicks on a quit button

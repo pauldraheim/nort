@@ -5,7 +5,6 @@ import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
 
-import ch.bbw.controller.NortComponentResizedListener;
 import ch.bbw.view.pane.LoginPane;
 
 /**
@@ -24,7 +23,7 @@ public class NortFrame extends JFrame {
 	public void initGui() {
 		setTitle("Nort");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		addComponentListener(new NortComponentResizedListener());
+		addComponentListener(new SwingNortComponentResizedListener());
 		
 		int width = (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth() * 0.6);
 		int height = (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight() * 0.8);
