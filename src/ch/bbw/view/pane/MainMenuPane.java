@@ -11,9 +11,11 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ch.bbw.controller.Game;
 import ch.bbw.controller.NortListener;
 import ch.bbw.view.NortComponentFactory;
 import ch.bbw.view.NortFrame;
@@ -31,7 +33,7 @@ public class MainMenuPane extends JPanel {
 	public MainMenuPane initGui() {
 		Insets insets = NortFrame.getInstance().getInsets();
 		
-		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
+		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 500;
 		
 		setLayout(new GridLayout(2, 1, spaceBetween, spaceBetween));
 		setBackground(Color.BLACK);
@@ -41,18 +43,36 @@ public class MainMenuPane extends JPanel {
 		
 		NortComponentFactory compFactory = NortComponentFactory.getInstance();
 		
+		JPanel mainMenuLabelPanel = new JPanel();
+		mainMenuLabelPanel.setName("mainMenuLabelPanel");
+		mainMenuLabelPanel.setBackground(Color.BLACK);
+		mainMenuLabelPanel.setLayout(new BoxLayout(mainMenuLabelPanel, BoxLayout.Y_AXIS));
+		
 		try {
 			JLabel logoLabel = new JLabel(new ImageIcon(ImageIO.read(new File("resources/logo.png"))));
 			logoLabel.setName("logoLabel");
-			add(logoLabel);
+			logoLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+			mainMenuLabelPanel.add(logoLabel);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		String players= "";
+		
+		if (Game.getInstance().getPlayer2() != null) {
+			players = "Player 1: " + Game.getInstance().getPlayer1().getUsername() + ", Player 2: " + Game.getInstance().getPlayer2().getUsername();
+		} 
+		else {
+			players = "Player 1: " + Game.getInstance().getPlayer1().getUsername() + ", Player 2: Not logged in";
+		}
+		
+		mainMenuLabelPanel.add(compFactory.createDescriptionLabel("mainMenuPlayersLabel", players));
+		
+		add(mainMenuLabelPanel);
+		
 		JPanel mainMenuBtnPanel = new JPanel();
 		mainMenuBtnPanel.setName("mainMenuBtnPanel");
 		mainMenuBtnPanel.setBackground(Color.BLACK);
-		mainMenuBtnPanel.setAlignmentY(CENTER_ALIGNMENT);
 		mainMenuBtnPanel.setLayout(new BoxLayout(mainMenuBtnPanel, BoxLayout.Y_AXIS));
 		
 		NortListener listener = new NortListener();
@@ -76,7 +96,8 @@ public class MainMenuPane extends JPanel {
 		JButton mainMenuQuitBtn = compFactory.createButton("mainMenuQuitBtn", "Quit");
 		mainMenuQuitBtn.setActionCommand("mainMenuQuitBtn");
 		mainMenuQuitBtn.addActionListener(listener);
-		
+
+		mainMenuBtnPanel.add(Box.createVerticalGlue());
 		mainMenuBtnPanel.add(mainMenuPlayBtn);
 		mainMenuBtnPanel.add(Box.createVerticalGlue());
 		mainMenuBtnPanel.add(mainMenuLeaderboardsBtn);

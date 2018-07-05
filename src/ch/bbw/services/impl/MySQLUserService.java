@@ -1,10 +1,13 @@
 package ch.bbw.services.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import ch.bbw.controller.Game;
 import ch.bbw.model.User;
 import ch.bbw.services.UserService;
 
@@ -22,7 +25,7 @@ public class MySQLUserService implements UserService {
             rs = DatabaseConnector.getInstance().getSt().executeQuery(query);
             
             while (rs.next()) {
-                User user = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"));
+                User user = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("gameWins"), rs.getInt("roundWins"));
                 users.add(user);
             }
         }
@@ -50,12 +53,14 @@ public class MySQLUserService implements UserService {
 		try {
 			User user = (User) objectToAdd;
 			
-            String query = "insert into user (username, password) values (?, ?)";
+            String query = "insert into user (username, password, gameWins, roundWins) values (?, ?, ?, ?)";
             
             st = DatabaseConnector.getInstance().getCon().prepareStatement(query);
             
             st.setString(1, user.getUsername());
             st.setString(2, user.getPassword());
+            st.setInt(3, user.getGameWins());
+            st.setInt(4, user.getRoundWins());
             
             st.executeUpdate();
         }
@@ -93,7 +98,7 @@ public class MySQLUserService implements UserService {
             rs = st.executeQuery();
             
             while (rs.next()) {
-            	user = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"));
+            	user = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("gameWins"), rs.getInt("roundWins"));
             }
         }
         catch(Exception e) {
@@ -114,6 +119,52 @@ public class MySQLUserService implements UserService {
         }
         
         return user;
+	}
+
+	@Override
+	public Map<Integer, User> getLeaderboards() {
+		List<User> usersOrdered = new ArrayList<>();
 		
+		ResultSet rs = null;
+		
+		PreparedStatement st = null;
+		
+		try {
+            String query = "select * from user order by roundWins desc";
+            
+            rs = DatabaseConnector.getInstance().getSt().executeQuery(query);
+            
+            while (rs.next()) {
+            	User user = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("gameWins"), rs.getInt("roundWins"));
+            	usersOrdered.add(user);
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+        	try {
+	        	if (rs != null) {
+					rs.close();
+	        	}
+	        	if (st != null) {
+	        		st.close();
+	        	}
+        	}
+        	catch(Exception e) {
+        		e.printStackTrace();
+        	}
+        }
+		
+		Map<Integer, User> leaderboards = new HashMap<>();
+		
+		for (int i = 0; i < usersOrdered.size(); i++) {
+			if (i < 3 || usersOrdered.get(i).getUsername().equals(Game.getInstance().getPlayer1().getUsername()) || 
+					Game.getInstance().getPlayer2() != null && usersOrdered.get(i).getUsername().equals(Game.getInstance().getPlayer2().getUsername())) {
+				leaderboards.put(i + 1, usersOrdered.get(i));
+			}
+		}
+		
+		return leaderboards;
 	}
 }

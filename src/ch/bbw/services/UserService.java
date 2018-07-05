@@ -1,6 +1,7 @@
 package ch.bbw.services;
 
 import java.util.List;
+import java.util.Map;
 
 import ch.bbw.model.User;
 
@@ -16,7 +17,19 @@ public interface UserService {
 	 */
 	public List<Object> getAllFromDataSource();
 	
+	/**
+	 * Interacts with the database and executes the login process
+	 * @param username The username that was entered
+	 * @param password The password that was entered
+	 * @return The user that logged in, null if no user found
+	 */
 	public User login(String username, String password);
+	
+	/**
+	 * Returns the leaderboards, containing the three best players but also player one and player two regardless of placement
+	 * @return List of users ordered as a leaderboard
+	 */
+	public Map<Integer, User> getLeaderboards();
 	
 	/**
 	 * Adds an object of a kind to the list of said objects in the data source

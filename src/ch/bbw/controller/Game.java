@@ -9,6 +9,8 @@ public class Game {
 	private User player1;
 	
 	private User player2;
+	
+	private int roundsForWin;
 
 	private Game() {}
 	
@@ -30,5 +32,13 @@ public class Game {
 	
 	public static Game getInstance() {
 		return game;
+	}
+
+	public int getRoundsForWin() {
+		return roundsForWin;
+	}
+
+	public void setRoundsForWin(int roundsForWin) {
+		this.roundsForWin = roundsForWin;
 	}
 }

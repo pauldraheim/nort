@@ -38,7 +38,7 @@ public class SwingNortComponentResizedListener implements ComponentListener {
 			table.setFont(font);
 			table.getTableHeader().setFont(font);
 			table.setRowHeight((NortFrame.getInstance().getHeight() - NortFrame.getInstance().getInsets().top -
-					NortFrame.getInstance().getInsets().bottom) / 18);
+					NortFrame.getInstance().getInsets().bottom) / (3 * (table.getRowCount() + 1)));
 			
 			return;
 		}

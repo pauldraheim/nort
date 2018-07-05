@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 
 import ch.bbw.view.enums.NortWindow;
 import ch.bbw.view.interfaces.Navigator;
+import ch.bbw.view.pane.GamePane;
+import ch.bbw.view.pane.GameSettingsPane;
 import ch.bbw.view.pane.LeaderboardPane;
 import ch.bbw.view.pane.LoginPane;
 import ch.bbw.view.pane.MainMenuPane;
@@ -26,10 +28,14 @@ public class SwingNavigator implements Navigator {
 		
 		switch(window) {
 			case GAME:
+				newContentPane = new GamePane().initGui();
+				
 				break;
 			case GAMEMENU:
 				break;
-			case GAMEOPTIONS:
+			case GAMESETTINGS:
+				newContentPane = new GameSettingsPane().initGui();
+				
 				break;
 			case LEADERBOARD:
 				newContentPane = new LeaderboardPane().initGui();

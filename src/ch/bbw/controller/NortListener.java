@@ -47,6 +47,7 @@ public class NortListener implements ActionListener {
 				break;
 			case "leaderboardBackBtn":
 			case "playerTwoBackBtn":
+			case "gameSettingsBackBtn":
 				inputHandler.handleGoToMainmenu();
 				
 				break;
@@ -60,6 +61,14 @@ public class NortListener implements ActionListener {
 				break;
 			case "playerTwoLogoutBtn":
 				inputHandler.handlePlayerTwoLogout();
+				
+				break;
+			case "mainMenuPlayBtn":
+				inputHandler.handleGoToGameSettings();
+				
+				break;
+			case "gameSettingsPlayBtn":
+				inputHandler.handleGoToGame();
 				
 				break;
 			default:

@@ -70,7 +70,7 @@ public class UserInputHandler {
 		}
 		
 		if (!isUsernameTaken) {
-			userService.addToDataSource(new User(username, hashPassword(password)));
+			userService.addToDataSource(new User(username, hashPassword(password), 0, 0));
 			
 			for (Object userObject : userService.getAllFromDataSource()) {
 				User user = (User) userObject;
@@ -141,7 +141,7 @@ public class UserInputHandler {
 		}
 		
 		if (!isUsernameTaken) {
-			userService.addToDataSource(new User(username, hashPassword(password)));
+			userService.addToDataSource(new User(username, hashPassword(password), 0, 0));
 			
 			for (Object userObject : userService.getAllFromDataSource()) {
 				User user = (User) userObject;
@@ -171,6 +171,13 @@ public class UserInputHandler {
 	 * Handles what to do when the user clicks on a button that should direct towards the login screen
 	 */
 	public void handleGoToLogin() {
+		if (Game.getInstance().getPlayer1() != null) {
+			Game.getInstance().setPlayer1(null);
+		}
+		if (Game.getInstance().getPlayer2() != null) {
+			Game.getInstance().setPlayer2(null);
+		}
+		
 		SwingNavigator.getInstance().navigate(NortWindow.LOGIN);
 	}
 	
@@ -188,12 +195,32 @@ public class UserInputHandler {
 		SwingNavigator.getInstance().navigate(NortWindow.PLAYERTWO);
 	}
 
+	/**
+	 * Handles what to do when the user clicks on a button that should direct towards the mainmenu screen
+	 */
 	public void handleGoToMainmenu() {
 		SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 	}
 	
+	/**
+	 * Handles what to do when the user clicks on a button that should direct towards the leaderboard screen
+	 */
 	public void handleGoToLeaderboard() {
 		SwingNavigator.getInstance().navigate(NortWindow.LEADERBOARD);
+	}
+
+	/**
+	 * Handles what to do when the user clicks on a button that should direct towards the game settings screen
+	 */
+	public void handleGoToGameSettings() {
+		if (Game.getInstance().getPlayer2() != null) SwingNavigator.getInstance().navigate(NortWindow.GAMESETTINGS);
+	}
+
+	/**
+	 * Handles what to do when the user clicks on a button that should direct towards the game screen
+	 */
+	public void handleGoToGame() {
+		SwingNavigator.getInstance().navigate(NortWindow.GAME);
 	}
 	
 	/**

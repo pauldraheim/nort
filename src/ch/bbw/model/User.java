@@ -12,14 +12,20 @@ public class User {
 	
 	private String password;
 	
+	private int gameWins;
+	
+	private int roundWins;
+	
 	/**
 	 * Constructor that sets all values but the ID of the user
 	 * @param username
 	 * @param password
 	 */
-	public User(String username, String password) {
+	public User(String username, String password, int gameWins, int roundWins) {
 		this.username = username;
 		this.password = password;
+		this.gameWins = gameWins;
+		this.roundWins = roundWins;
 	}
 	
 	/**
@@ -28,14 +34,12 @@ public class User {
 	 * @param username
 	 * @param password
 	 */
-	public User(int id, String username, String password) {
+	public User(int id, String username, String password, int gameWins, int roundWins) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-	}
-
-	public User() {
-		// TODO Auto-generated constructor stub
+		this.gameWins = gameWins;
+		this.roundWins = roundWins;
 	}
 
 	public int getId() {
@@ -60,5 +64,21 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getGameWins() {
+		return gameWins;
+	}
+
+	public void setGameWins(int gameWins) {
+		this.gameWins = gameWins;
+	}
+
+	public int getRoundWins() {
+		return roundWins;
+	}
+
+	public void setRoundWins(int roundWins) {
+		this.roundWins = roundWins;
 	}
 }

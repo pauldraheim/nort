@@ -22,13 +22,13 @@ import ch.bbw.view.NortFrame;
  * The JPanel containing the Leaderboard
  * @author 5ia16padraheim
  */
-public class LeaderboardPane extends JPanel {
+public class GamePane extends JPanel {
 	
 	/**
 	 * Initializes all components of the LeaderboardPane and returns the instance of the initialized LeaderboardPane
 	 * @return The initialized LeaderboardPane
 	 */
-	public LeaderboardPane initGui() {
+	public GamePane initGui() {
 		Insets insets = NortFrame.getInstance().getInsets();
 		
 		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
