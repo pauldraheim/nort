@@ -11,6 +11,5 @@ public enum NortWindow {
 	LEADERBOARD,
 	PLAYERTWO,
 	GAMESETTINGS,
-	GAME,
-	GAMEMENU
+	GAME
 }

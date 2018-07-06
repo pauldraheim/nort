@@ -77,4 +77,34 @@ public interface ComponentSetterGetter {
 	 * @param text The new text resembling the PlayerTwoRegisterInfo
 	 */
 	public void setPlayerTwoRegisterInfoText(String text);
+	
+	/**
+	 * Sets the text of the Player1ReadyInfo
+	 * @param text The new text resembling the Player1ReadyInfo
+	 */
+	public void setPlayer1ReadyText(String text);
+	
+	/**
+	 * Sets the text of the Player2ReadyInfo
+	 * @param text The new text resembling the Player2ReadyInfo
+	 */
+	public void setPlayer2ReadyText(String text);
+	
+	/**
+	 * Sets the text of the Player1RoundsWonInfo
+	 * @param roundsWon The amount of rounds the player has won
+	 */
+	public void setPlayer1RoundsWonText(int roundsWon);
+	
+	/**
+	 * Sets the text of the Player2RoundsWonInfo
+	 * @param roundsWon The amount of rounds the player has won
+	 */
+	public void setPlayer2RoundsWonText(int roundsWon);
+	
+	/**
+	 * Returns the amount of rounds a player needs to win a game of Nort
+	 * @return The amount of rounds a player needs to win
+	 */
+	public int getRoundsToWin();
 }

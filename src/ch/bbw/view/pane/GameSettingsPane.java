@@ -35,27 +35,27 @@ public class GameSettingsPane extends JPanel {
 		
 		NortComponentFactory compFactory = NortComponentFactory.getInstance();
 		
-		add(compFactory.createTitleLabel("mainMenuLabel", "Game settings"));
+		add(compFactory.createTitleLabel("gameSettingsLabel", "Game settings"));
 		
 		JPanel gameSettingsPlayersPanel = new JPanel();
 		gameSettingsPlayersPanel.setName("gameSettingsPlayersPanel");
 		gameSettingsPlayersPanel.setBackground(Color.BLACK);
 		gameSettingsPlayersPanel.setLayout(new GridLayout(3, 2, spaceBetween, spaceBetween));
 		
-		gameSettingsPlayersPanel.add(compFactory.createTitleLabel("mainMenuPlayer1InfoLabel", Game.getInstance().getPlayer1().getUsername()));
-		gameSettingsPlayersPanel.add(compFactory.createTitleLabel("mainMenuPlayer2InfoLabel", Game.getInstance().getPlayer2().getUsername()));
+		gameSettingsPlayersPanel.add(compFactory.createTitleLabel("gameSettingsPlayer1InfoLabel", Game.getInstance().getPlayer1().getUsername()));
+		gameSettingsPlayersPanel.add(compFactory.createTitleLabel("gameSettingsPlayer2InfoLabel", Game.getInstance().getPlayer2().getUsername()));
 		
-		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("mainMenuPlayer1ControlsTitleLabel", "Controls:"));
-		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("mainMenuPlayer2ControlsTitleLabel", "Controls:"));
+		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer1ControlsTitleLabel", "Controls:"));
+		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer2ControlsTitleLabel", "Controls:"));
 
-		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("mainMenuPlayer1ControlsLabel", "← = left, ↑ = up, → = right, ↓ = down"));
-		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("mainMenuPlayer2ControlsLabel", "A = left, W = up, D = right, S = down"));
+		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer1ControlsLabel", "← = left, ↑ = up, → = right, ↓ = down"));
+		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer2ControlsLabel", "A = left, W = up, D = right, S = down"));
 		
 		add(gameSettingsPlayersPanel);
 		
-		add(compFactory.createTitleLabel("mainMenuRoundsLabel", "Rounds needed to win"));
+		add(compFactory.createTitleLabel("gameSettingsRoundsLabel", "Rounds needed to win"));
 		
-		add(compFactory.createSlider("mainMenuRoundsSlider", 1, 11, 3, 1, 2, SwingConstants.HORIZONTAL));
+		add(compFactory.createSlider("gameSettingsRoundsSlider", 1, 11, 3, 1, 2, SwingConstants.HORIZONTAL));
 		
 		JPanel gameSettingsBtnPanel = new JPanel();
 		gameSettingsBtnPanel.setName("gameSettingsBtnPanel");

@@ -36,4 +36,9 @@ public interface UserService {
 	 * @param objectToAdd The object that is to be added to the data source
 	 */
 	public void addToDataSource(Object objectToAdd);
+
+	/**
+	 * Updates the datasource, possible changes include round wins and game wins
+	 */
+	public void updateDatasource();
 }

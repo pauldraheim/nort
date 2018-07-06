@@ -3,6 +3,7 @@ package ch.bbw.controller;
 import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.JSlider;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -159,6 +160,69 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 				for (Component c2 : ((JPanel) c).getComponents()) {
 					if (c2.getName().equals("playerTwoRegisterInfoLabel")) {
 						((JLabel) c2).setText(text);
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void setPlayer1ReadyText(String text) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
+			if (c.getName().equals("gameRoundInfoMenuPane")) {
+				for (Component c2 : ((JPanel) c).getComponents()) {
+					if (c2.getName().equals("gamePlayer1ReadyLabel")) {
+						((JLabel) c2).setText(text);
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void setPlayer2ReadyText(String text) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
+			if (c.getName().equals("gameRoundInfoMenuPane")) {
+				for (Component c2 : ((JPanel) c).getComponents()) {
+					if (c2.getName().equals("gamePlayer2ReadyLabel")) {
+						((JLabel) c2).setText(text);
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public int getRoundsToWin() {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
+			if (c.getName().equals("gameSettingsRoundsSlider")) {
+				return ((JSlider) c).getValue();
+			}
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public void setPlayer1RoundsWonText(int roundsWon) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
+			if (c.getName().equals("gameRoundInfoMenuPane")) {
+				for (Component c2 : ((JPanel) c).getComponents()) {
+					if (c2.getName().equals("gamePlayer1RoundsWonLabel")) {
+						((JLabel) c2).setText(roundsWon + "/" + Game.getInstance().getRoundsForWin() + " won");
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void setPlayer2RoundsWonText(int roundsWon) {
+		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
+			if (c.getName().equals("gameRoundInfoMenuPane")) {
+				for (Component c2 : ((JPanel) c).getComponents()) {
+					if (c2.getName().equals("gamePlayer2RoundsWonLabel")) {
+						((JLabel) c2).setText(roundsWon + "/" + Game.getInstance().getRoundsForWin() + " won");
 					}
 				}
 			}

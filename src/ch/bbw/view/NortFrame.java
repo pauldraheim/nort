@@ -22,7 +22,7 @@ public class NortFrame extends JFrame {
 	 */
 	public void initGui() {
 		setTitle("Nort");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addComponentListener(new SwingNortComponentResizedListener());
 		
 		int width = (int) (GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth() * 0.6);

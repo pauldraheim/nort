@@ -31,8 +31,6 @@ public class SwingNavigator implements Navigator {
 				newContentPane = new GamePane().initGui();
 				
 				break;
-			case GAMEMENU:
-				break;
 			case GAMESETTINGS:
 				newContentPane = new GameSettingsPane().initGui();
 				
@@ -60,6 +58,7 @@ public class SwingNavigator implements Navigator {
 		}
 		
 		NortFrame.getInstance().setContentPane(newContentPane);
+		NortFrame.getInstance().getContentPane().requestFocusInWindow();
 	}
 	
 	public static Navigator getInstance() {
