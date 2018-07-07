@@ -90,7 +90,7 @@ public class NortListener implements ActionListener, KeyListener {
 		
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
-				if (Game.getInstance().isRoundRunning()) {
+				if (Game.getInstance().isRoundRunning() && !Game.getInstance().getPlayer2Direction().equals(Direction.UP.getOppositeDirection())) {
 					Game.getInstance().setPlayer2Direction(Direction.UP);
 				}
 				else {
@@ -99,25 +99,25 @@ public class NortListener implements ActionListener, KeyListener {
 				
 				break;
 			case KeyEvent.VK_RIGHT:
-				if (Game.getInstance().isRoundRunning()) {
+				if (Game.getInstance().isRoundRunning() && !Game.getInstance().getPlayer2Direction().equals(Direction.RIGHT.getOppositeDirection())) {
 					Game.getInstance().setPlayer2Direction(Direction.RIGHT);
 				}
 				
 				break;
 			case KeyEvent.VK_DOWN:
-				if (Game.getInstance().isRoundRunning()) {
+				if (Game.getInstance().isRoundRunning() && !Game.getInstance().getPlayer2Direction().equals(Direction.DOWN.getOppositeDirection())) {
 					Game.getInstance().setPlayer2Direction(Direction.DOWN);
 				}
 				
 				break;
 			case KeyEvent.VK_LEFT:
-				if (Game.getInstance().isRoundRunning()) {
+				if (Game.getInstance().isRoundRunning() && !Game.getInstance().getPlayer2Direction().equals(Direction.LEFT.getOppositeDirection())) {
 					Game.getInstance().setPlayer2Direction(Direction.LEFT);
 				}
 				
 				break;
 			case KeyEvent.VK_W:
-				if (Game.getInstance().isRoundRunning()) {
+				if (Game.getInstance().isRoundRunning() && !Game.getInstance().getPlayer1Direction().equals(Direction.UP.getOppositeDirection())) {
 					Game.getInstance().setPlayer1Direction(Direction.UP);
 				}
 				else {
@@ -126,19 +126,19 @@ public class NortListener implements ActionListener, KeyListener {
 				
 				break;
 			case KeyEvent.VK_D:
-				if (Game.getInstance().isRoundRunning()) {
+				if (Game.getInstance().isRoundRunning() && !Game.getInstance().getPlayer1Direction().equals(Direction.RIGHT.getOppositeDirection())) {
 					Game.getInstance().setPlayer1Direction(Direction.RIGHT);
 				}
 				
 				break;
 			case KeyEvent.VK_S:
-				if (Game.getInstance().isRoundRunning()) {
+				if (Game.getInstance().isRoundRunning() && !Game.getInstance().getPlayer1Direction().equals(Direction.DOWN.getOppositeDirection())) {
 					Game.getInstance().setPlayer1Direction(Direction.DOWN);
 				}
 				
 				break;
 			case KeyEvent.VK_A:
-				if (Game.getInstance().isRoundRunning()) {
+				if (Game.getInstance().isRoundRunning() && !Game.getInstance().getPlayer1Direction().equals(Direction.LEFT.getOppositeDirection())) {
 					Game.getInstance().setPlayer1Direction(Direction.LEFT);
 				}
 				

@@ -26,7 +26,12 @@ public class UserInputHandler {
 	 * Handles what to do when the user clicks on a quit button
 	 */
 	public void handleQuit() {
-		AbstractNortServiceProvider.getInstance().getUserService().updateDatasource();
+		if (Game.getInstance().getPlayer1() != null) {
+			Game.getInstance().setPlayer1(null);
+		}
+		if (Game.getInstance().getPlayer2() != null) {
+			Game.getInstance().setPlayer2(null);
+		}
 		
 		System.exit(0);
 	}
@@ -163,7 +168,7 @@ public class UserInputHandler {
 	 * Handles what to do when the user clicks the player two logout button
 	 */
 	public void handlePlayerTwoLogout() {
-		AbstractNortServiceProvider.getInstance().getUserService().updateDatasource();
+		Game.getInstance().setPlayer2(null);
 
 		SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 	}
@@ -173,7 +178,9 @@ public class UserInputHandler {
 	 * towards the login screen
 	 */
 	public void handleGoToLogin() {
-		AbstractNortServiceProvider.getInstance().getUserService().updateDatasource();
+		if (Game.getInstance().getPlayer1() != null) {
+			Game.getInstance().setPlayer1(null);
+		}
 
 		SwingNavigator.getInstance().navigate(NortWindow.LOGIN);
 	}
@@ -238,6 +245,8 @@ public class UserInputHandler {
 
 		game.getPlayer1().setRoundWins(game.getPlayer1().getRoundWins() + game.getPlayer1RoundWins());
 		game.getPlayer2().setRoundWins(game.getPlayer2().getRoundWins() + game.getPlayer2RoundWins());
+		
+		AbstractNortServiceProvider.getInstance().getUserService().updateDatasource();
 
 		SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 	}

@@ -172,23 +172,17 @@ public class MySQLUserService implements UserService {
 
 			st = DatabaseConnector.getInstance().getCon().prepareStatement(query);
 
-			if (user1 != null) {
-				st.setInt(1, user1.getRoundWins());
-				st.setInt(2, user1.getGameWins());
-				st.setString(3, user1.getUsername());
+			st.setInt(1, user1.getRoundWins());
+			st.setInt(2, user1.getGameWins());
+			st.setString(3, user1.getUsername());
 
-				st.executeUpdate();
-				
-				user1 = null;
-			} else if (user2 != null) {
-				st.setInt(1, user2.getRoundWins());
-				st.setInt(2, user2.getGameWins());
-				st.setString(3, user2.getUsername());
+			st.executeUpdate();
+			
+			st.setInt(1, user2.getRoundWins());
+			st.setInt(2, user2.getGameWins());
+			st.setString(3, user2.getUsername());
 
-				st.executeUpdate();
-				
-				user2 = null;
-			}
+			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

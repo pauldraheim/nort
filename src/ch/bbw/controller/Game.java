@@ -12,7 +12,7 @@ public class Game extends Thread {
 
 	private static Game game;
 
-	private static final int MAX_FPS = 7;
+	private static final int MAX_FPS = 10;
 
 	private User player1;
 
@@ -113,7 +113,7 @@ public class Game extends Thread {
 						compSetterGetter.setPlayer1ReadyText("WON");
 						compSetterGetter.setPlayer2ReadyText("LOST");
 						
-						getPlayer1().setGameWins(getPlayer1().getGameWins() + 1);
+						player1.setGameWins(player1.getGameWins() + 1);
 					}
 					else if (roundsForWin == player2RoundWins) {
 						isGameRunning = false;
@@ -123,7 +123,7 @@ public class Game extends Thread {
 						compSetterGetter.setPlayer1ReadyText("LOST");
 						compSetterGetter.setPlayer2ReadyText("WON");
 						
-						getPlayer2().setGameWins(getPlayer2().getGameWins() + 1);
+						player2.setGameWins(player2.getGameWins() + 1);
 					}
 					else {
 						compSetterGetter.setPlayer1RoundsWonText(player1RoundWins);
