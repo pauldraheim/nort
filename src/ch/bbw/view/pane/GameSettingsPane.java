@@ -8,10 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import ch.bbw.controller.Game;
+import ch.bbw.controller.NortGameLoop;
 import ch.bbw.controller.NortListener;
+import ch.bbw.controller.Starter;
 import ch.bbw.view.NortComponentFactory;
-import ch.bbw.view.NortFrame;
 
 /**
  * The JPanel that the Game settings can be changed in
@@ -24,16 +24,17 @@ public class GameSettingsPane extends JPanel {
 	 * @return The initialized GameSettingsPane
 	 */
 	public GameSettingsPane initGui() {
-		Insets insets = NortFrame.getInstance().getInsets();
+		Insets insets = Starter.getInstance().getNortFrame().getInsets();
 		
-		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
+		int spaceBetween = (Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right) / 200;
 		
 		setLayout(new GridLayout(5, 1, spaceBetween, spaceBetween));
 		setBackground(Color.BLACK);
 		setName("gameSettingsPane");
-		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
+		setSize(Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right, 
+				Starter.getInstance().getNortFrame().getHeight() - insets.top - insets.bottom);
 		
-		NortComponentFactory compFactory = NortComponentFactory.getInstance();
+		NortComponentFactory compFactory = Starter.getInstance().getNortComponentFactory();
 		
 		add(compFactory.createTitleLabel("gameSettingsLabel", "Game settings"));
 		
@@ -42,14 +43,16 @@ public class GameSettingsPane extends JPanel {
 		gameSettingsPlayersPanel.setBackground(Color.BLACK);
 		gameSettingsPlayersPanel.setLayout(new GridLayout(3, 2, spaceBetween, spaceBetween));
 		
-		gameSettingsPlayersPanel.add(compFactory.createTitleLabel("gameSettingsPlayer1InfoLabel", Game.getInstance().getPlayer1().getUsername()));
-		gameSettingsPlayersPanel.add(compFactory.createTitleLabel("gameSettingsPlayer2InfoLabel", Game.getInstance().getPlayer2().getUsername()));
+		gameSettingsPlayersPanel.add(compFactory.createTitleLabel("gameSettingsPlayer1InfoLabel", 
+				NortGameLoop.getInstance().getPlayer1().getUser().getUsername()));
+		gameSettingsPlayersPanel.add(compFactory.createTitleLabel("gameSettingsPlayer2InfoLabel", 
+				NortGameLoop.getInstance().getPlayer2().getUser().getUsername()));
 		
 		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer1ControlsTitleLabel", "Controls:"));
 		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer2ControlsTitleLabel", "Controls:"));
 
-		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer1ControlsLabel", "← = left, ↑ = up, → = right, ↓ = down"));
-		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer2ControlsLabel", "A = left, W = up, D = right, S = down"));
+		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer1ControlsLabel", "A = left, W = up, D = right, S = down"));
+		gameSettingsPlayersPanel.add(compFactory.createDescriptionLabel("gameSettingsPlayer2ControlsLabel", "← = left, ↑ = up, → = right, ↓ = down"));
 		
 		add(gameSettingsPlayersPanel);
 		

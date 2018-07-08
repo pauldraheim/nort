@@ -4,7 +4,7 @@ package ch.bbw.controller.enums;
  * Contains all existing cells in the game
  * @author 5ia16padraheim
  */
-public enum GameCell {
+public enum NortGameCell {
 	EMPTY,
 	PLAYER1,
 	PLAYER2,

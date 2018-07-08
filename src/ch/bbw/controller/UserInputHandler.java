@@ -6,180 +6,137 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.DatatypeConverter;
 
-import ch.bbw.controller.interfaces.ComponentSetterGetter;
+import ch.bbw.controller.interfaces.ComponentInteractor;
 import ch.bbw.model.User;
 import ch.bbw.services.AbstractNortServiceProvider;
-import ch.bbw.services.UserService;
 import ch.bbw.view.SwingNavigator;
 import ch.bbw.view.enums.NortWindow;
 
 /**
  * Handles all sorts of user input
- * 
  * @author 5ia16padraheim
  */
 public class UserInputHandler {
-
-	private UserService userService = AbstractNortServiceProvider.getInstance().getUserService();
+	
+	private static UserInputHandler userInputHandler;
 
 	/**
-	 * Handles what to do when the user clicks on a quit button
+	 * Handles what to do when the user initiates the quit process
 	 */
 	public void handleQuit() {
-		if (Game.getInstance().getPlayer1() != null) {
-			Game.getInstance().setPlayer1(null);
+		if (NortGameLoop.getInstance().getPlayer1().getUser() != null) {
+			NortGameLoop.getInstance().getPlayer1().setUser(null);
 		}
-		if (Game.getInstance().getPlayer2() != null) {
-			Game.getInstance().setPlayer2(null);
+		if (NortGameLoop.getInstance().getPlayer2().getUser() != null) {
+			NortGameLoop.getInstance().getPlayer2().setUser(null);
 		}
 		
 		System.exit(0);
 	}
 
 	/**
-	 * Handles what to do when the user clicks on the login button
+	 * Handles what to do when the user initiates the login process
 	 */
 	public void handleLogin() {
-		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
-
-		String password = valueSetterGetter.getLoginPassword();
-		String username = valueSetterGetter.getLoginUsername();
+		ComponentInteractor compInteractor = Starter.getInstance().getComponentInteractor();
+		
+		String password = compInteractor.getLoginPassword();
+		String username = compInteractor.getLoginUsername();
 
 		String hashedEnteredPassword = hashPassword(password);
 
-		User user = userService.login(username, hashedEnteredPassword);
+		User user = AbstractNortServiceProvider.getInstance().getUserService().login(username, hashedEnteredPassword);
 
 		if (user == null) {
-			valueSetterGetter.setLoginInfoText("Incorrect combination of username and password");
+			compInteractor.setLoginInfoText("Incorrect combination of username and password");
 		} else {
-			Game.getInstance().setPlayer1(user);
+			NortGameLoop.getInstance().getPlayer1().setUser(user);
 
 			SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 		}
 	}
 
 	/**
-	 * Handles what to do when the user clicks on the register button
+	 * Handles what to do when the user initiates the register process
 	 */
 	public void handleRegister() {
+		ComponentInteractor compInteractor = Starter.getInstance().getComponentInteractor();
 
-		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
-
-		String password = valueSetterGetter.getRegisterPassword();
-		String username = valueSetterGetter.getRegisterUsername();
-
-		boolean isUsernameTaken = false;
-
-		for (Object userObject : userService.getAllFromDataSource()) {
-			User user = (User) userObject;
-
-			if (user.getUsername().equals(username)) {
-				isUsernameTaken = true;
-			}
-		}
-
-		if (!isUsernameTaken) {
-			userService.addToDataSource(new User(username, hashPassword(password), 0, 0));
-
-			for (Object userObject : userService.getAllFromDataSource()) {
-				User user = (User) userObject;
-
-				if (user.getUsername().equals(username)) {
-					Game.getInstance().setPlayer1(user);
-				}
-			}
-
+		String password = compInteractor.getRegisterPassword();
+		String username = compInteractor.getRegisterUsername();
+		
+		User user = AbstractNortServiceProvider.getInstance().getUserService().register(username, hashPassword(password));
+		
+		if (user != null) {
+			NortGameLoop.getInstance().getPlayer1().setUser(user);
+			
 			SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 		} else {
-			valueSetterGetter.setRegisterInfoText("Username already taken!");
+			compInteractor.setRegisterInfoText("Username already taken");
 		}
 	}
 
 	/**
-	 * Handles what to do when the user clicks on the login button
+	 * Handles what to do when a user initiates the login process for the second user
 	 */
 	public void handlePlayerTwoLogin() {
-
-		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
-
-		String password = valueSetterGetter.getPlayerTwoLoginPassword();
-		String username = valueSetterGetter.getPlayerTwoLoginUsername();
+		ComponentInteractor compInteractor = Starter.getInstance().getComponentInteractor();
+		
+		String password = compInteractor.getPlayerTwoLoginPassword();
+		String username = compInteractor.getPlayerTwoLoginUsername();
 
 		String hashedEnteredPassword = hashPassword(password);
 
-		boolean hasMatchingUser = false;
+		User user = AbstractNortServiceProvider.getInstance().getUserService().login(username, hashedEnteredPassword);
 
-		for (Object userObject : userService.getAllFromDataSource()) {
-			User user = (User) userObject;
-
-			if (user.getPassword().equals(hashedEnteredPassword) && user.getUsername().equals(username)
-					&& !Game.getInstance().getPlayer1().getUsername().equals(username)) {
-				hasMatchingUser = true;
-
-				Game.getInstance().setPlayer2(user);
-			}
-		}
-
-		if (!hasMatchingUser) {
-			valueSetterGetter.setPlayerTwoLoginInfoText("Incorrect login details");
+		if (user == null) {
+			compInteractor.setPlayerTwoLoginInfoText("Incorrect login details");
 		} else {
+			NortGameLoop.getInstance().getPlayer2().setUser(user);
+
 			SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 		}
 	}
 
 	/**
-	 * Handles what to do when the user clicks on the register button
+	 * Handles what to do when a user initiates the register process for the second user
 	 */
 	public void handlePlayerTwoRegister() {
+		ComponentInteractor compInteractor = Starter.getInstance().getComponentInteractor();
 
-		ComponentSetterGetter valueSetterGetter = new SwingComponentSetterGetter();
-
-		String password = valueSetterGetter.getPlayerTwoRegisterPassword();
-		String username = valueSetterGetter.getPlayerTwoRegisterUsername();
-
-		boolean isUsernameTaken = false;
-
-		for (Object userObject : userService.getAllFromDataSource()) {
-			User user = (User) userObject;
-
-			if (user.getUsername().equals(username)) {
-				isUsernameTaken = true;
-			}
-		}
-
-		if (!isUsernameTaken) {
-			userService.addToDataSource(new User(username, hashPassword(password), 0, 0));
-
-			for (Object userObject : userService.getAllFromDataSource()) {
-				User user = (User) userObject;
-
-				if (user.getUsername().equals(username)) {
-					Game.getInstance().setPlayer2(user);
-				}
-			}
-
+		String password = compInteractor.getPlayerTwoRegisterPassword();
+		String username = compInteractor.getPlayerTwoRegisterUsername();
+		
+		User user = AbstractNortServiceProvider.getInstance().getUserService().register(username, hashPassword(password));
+		
+		if (user != null) {
+			NortGameLoop.getInstance().getPlayer2().setUser(user);
+			
 			SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
-		} else {
-			valueSetterGetter.setPlayerTwoRegisterInfoText("Username already taken!");
+		}
+		else {
+			compInteractor.setPlayerTwoRegisterInfoText("Username already taken!");
 		}
 	}
 
 	/**
-	 * Handles what to do when the user clicks the player two logout button
+	 * Handles what to do when a user initiates the Player2 logout process
 	 */
 	public void handlePlayerTwoLogout() {
-		Game.getInstance().setPlayer2(null);
+		NortGameLoop.getInstance().getPlayer2().setUser(null);
 
 		SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 	}
 
 	/**
-	 * Handles what to do when the user clicks on a button that should direct
-	 * towards the login screen
+	 * Handles what to do when a user initiates the process that should navigate to the Login screen
 	 */
 	public void handleGoToLogin() {
-		if (Game.getInstance().getPlayer1() != null) {
-			Game.getInstance().setPlayer1(null);
+		if (NortGameLoop.getInstance().getPlayer1().getUser() != null) {
+			NortGameLoop.getInstance().getPlayer1().setUser(null);
+		}
+		if (NortGameLoop.getInstance().getPlayer2().getUser() != null) {
+			NortGameLoop.getInstance().getPlayer2().setUser(null);
 		}
 
 		SwingNavigator.getInstance().navigate(NortWindow.LOGIN);
@@ -192,59 +149,56 @@ public class UserInputHandler {
 	 *            The number of the player that got ready
 	 */
 	public void handlePlayerReady(int playerNumber) {
-		if (Game.getInstance().isGameRunning()) {
-			ComponentSetterGetter compSetterGetter = new SwingComponentSetterGetter();
-
+		if (NortGameLoop.getInstance().isGameRunning()) {
 			if (playerNumber == 1) {
-				if (Game.getInstance().isPlayer1Ready()) {
-					compSetterGetter.setPlayer1ReadyText("NOT READY (UP)");
-					Game.getInstance().setPlayer1Ready(false);
+				if (NortGameLoop.getInstance().getPlayer1().isPlayerReady()) {
+					Starter.getInstance().getComponentInteractor().setPlayer1ReadyText("NOT READY (UP)");
+					NortGameLoop.getInstance().getPlayer1().setPlayerReady(false);
 				} else {
-					compSetterGetter.setPlayer1ReadyText("READY (UP)");
-					Game.getInstance().setPlayer1Ready(true);
+					Starter.getInstance().getComponentInteractor().setPlayer1ReadyText("READY (UP)");
+					NortGameLoop.getInstance().getPlayer1().setPlayerReady(true);
 				}
 			} else {
-				if (Game.getInstance().isPlayer2Ready()) {
-					compSetterGetter.setPlayer2ReadyText("(UP) NOT READY");
-					Game.getInstance().setPlayer2Ready(false);
+				if (NortGameLoop.getInstance().getPlayer2().isPlayerReady()) {
+					Starter.getInstance().getComponentInteractor().setPlayer2ReadyText("(UP) NOT READY");
+					NortGameLoop.getInstance().getPlayer2().setPlayerReady(false);
 				} else {
-					compSetterGetter.setPlayer2ReadyText("(UP) READY");
-					Game.getInstance().setPlayer2Ready(true);
+					Starter.getInstance().getComponentInteractor().setPlayer2ReadyText("(UP) READY");
+					NortGameLoop.getInstance().getPlayer2().setPlayerReady(true);
 				}
 			}
 
-			if (Game.getInstance().isPlayer1Ready() && Game.getInstance().isPlayer2Ready()) {
-				if (Game.getInstance().getState().equals(State.NEW)) {
-					Game.getInstance().start();
-				} else if (Game.getInstance().getState().equals(State.TERMINATED)) {
-					User player1 = Game.getInstance().getPlayer1();
-					User player2 = Game.getInstance().getPlayer2();
-					int roundsForWin = Game.getInstance().getRoundsForWin();
+			if (NortGameLoop.getInstance().getPlayer1().isPlayerReady() && NortGameLoop.getInstance().getPlayer2().isPlayerReady()) {
+				if (NortGameLoop.getInstance().getState().equals(State.NEW)) {
+					NortGameLoop.getInstance().start();
+				} else if (NortGameLoop.getInstance().getState().equals(State.TERMINATED)) {
+					User player1User = NortGameLoop.getInstance().getPlayer1().getUser();
+					User player2User = NortGameLoop.getInstance().getPlayer2().getUser();
+					int roundsForWin = NortGameLoop.getInstance().getRoundsForWin();
 					
-					Game.getInstance().reset();
+					NortGameLoop.reset();
 					
-					Game.getInstance().setPlayer1(player1);
-					Game.getInstance().setPlayer2(player2);
-					Game.getInstance().setRoundsForWin(roundsForWin);
-					Game.getInstance().setGameRunning(true);
+					NortGameLoop.getInstance().getPlayer1().setUser(player1User);
+					NortGameLoop.getInstance().getPlayer2().setUser(player2User);
+					NortGameLoop.getInstance().setRoundsForWin(roundsForWin);
+					NortGameLoop.getInstance().setGameRunning(true);
 					
-					Game.getInstance().start();
+					NortGameLoop.getInstance().start();
 				} else {
-					Game.getInstance().setRoundRunning(true);
+					NortGameLoop.getInstance().setRoundRunning(true);
 				}
 			}
 		}
 	}
 
 	/**
-	 * Handles what to do when the user clicks on a button that should quit the
-	 * game
+	 * Handles what to do when the user initiates the process that should quit a game of Nort
 	 */
 	public void handleQuitGame() {
-		Game game = Game.getInstance();
+		NortGameLoop game = NortGameLoop.getInstance();
 
-		game.getPlayer1().setRoundWins(game.getPlayer1().getRoundWins() + game.getPlayer1RoundWins());
-		game.getPlayer2().setRoundWins(game.getPlayer2().getRoundWins() + game.getPlayer2RoundWins());
+		game.getPlayer1().getUser().setRoundWins(game.getPlayer1().getUser().getRoundWins() + game.getPlayer1().getCurrRoundWins());
+		game.getPlayer2().getUser().setRoundWins(game.getPlayer2().getUser().getRoundWins() + game.getPlayer2().getCurrRoundWins());
 		
 		AbstractNortServiceProvider.getInstance().getUserService().updateDatasource();
 
@@ -252,53 +206,48 @@ public class UserInputHandler {
 	}
 
 	/**
-	 * Handles what to do when the user clicks on a button that should direct
-	 * towards the register screen
+	 * Handles what to do when the user initiates the process that should direct towards the Register screen
 	 */
 	public void handleGoToRegister() {
 		SwingNavigator.getInstance().navigate(NortWindow.REGISTER);
 	}
 
 	/**
-	 * Handles what to do when the user clicks on a button that should direct
-	 * towards the player two screen
+	 * Handles what to do when the user initiates the process that should navigate to the Player2 screen
 	 */
 	public void handleGoToPlayerTwo() {
 		SwingNavigator.getInstance().navigate(NortWindow.PLAYERTWO);
 	}
 
 	/**
-	 * Handles what to do when the user clicks on a button that should direct
-	 * towards the mainmenu screen
+	 * Handles what to do when the user initiates the process that should lead to the Mainmenu screen
 	 */
 	public void handleGoToMainmenu() {
 		SwingNavigator.getInstance().navigate(NortWindow.MAINMENU);
 	}
 
 	/**
-	 * Handles what to do when the user clicks on a button that should direct
-	 * towards the leaderboard screen
+	 * Handles what to do when the user initiates the process that should navigate to the Leaderboards screen
 	 */
-	public void handleGoToLeaderboard() {
-		SwingNavigator.getInstance().navigate(NortWindow.LEADERBOARD);
+	public void handleGoToLeaderboards() {
+		SwingNavigator.getInstance().navigate(NortWindow.LEADERBOARDS);
 	}
 
 	/**
-	 * Handles what to do when the user clicks on a button that should direct
-	 * towards the game settings screen
+	 * Handles what to do when the user initiates the process that should navigate to the Game settings screen
 	 */
 	public void handleGoToGameSettings() {
-		if (Game.getInstance().getPlayer2() != null)
+		if (NortGameLoop.getInstance().getPlayer2().getUser() != null) {
 			SwingNavigator.getInstance().navigate(NortWindow.GAMESETTINGS);
+		}
 	}
 
 	/**
-	 * Handles what to do when the user clicks on a button that should direct
-	 * towards the game screen
+	 * Handles what to do when the user initiates the process that should direct him towards the game screen
 	 */
 	public void handleGoToGame() {
-		Game.getInstance().setRoundsForWin(new SwingComponentSetterGetter().getRoundsToWin());
-		Game.getInstance().setGameRunning(true);
+		NortGameLoop.getInstance().setRoundsForWin(Starter.getInstance().getComponentInteractor().getRoundsToWin());
+		NortGameLoop.getInstance().setGameRunning(true);
 
 		SwingNavigator.getInstance().navigate(NortWindow.GAME);
 	}
@@ -306,8 +255,7 @@ public class UserInputHandler {
 	/**
 	 * Hashes an entered password
 	 * 
-	 * @param enteredPassword
-	 *            The password that was entered by the user
+	 * @param enteredPassword The password that was entered by the user
 	 * @return The hashed password
 	 */
 	private String hashPassword(String enteredPassword) {
@@ -325,5 +273,17 @@ public class UserInputHandler {
 		}
 
 		return hashedEnteredPassword;
+	}
+	
+	/**
+	 * Returns the only instance of the UserInputHandler class and initiates it if it hasn't been yet
+	 * @return The only instance of the UserInputHandler class
+	 */
+	public static UserInputHandler getInstance() {
+		if (userInputHandler == null) {
+			userInputHandler = new UserInputHandler();
+		}
+		 
+		return userInputHandler;
 	}
 }

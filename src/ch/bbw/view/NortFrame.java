@@ -13,7 +13,7 @@ import ch.bbw.view.pane.LoginPane;
  */
 public class NortFrame extends JFrame {
 	
-	private static final NortFrame nortFrame = new NortFrame();
+	private static NortFrame nortFrame;
 
 	private NortFrame() {}
 	
@@ -37,7 +37,15 @@ public class NortFrame extends JFrame {
 		setVisible(true);
 	}
 	
+	/**
+	 * Returns the only instance of the NortFrame class and initiates it if it hasn't been yet
+	 * @return The only instance of the NortFrame class
+	 */
 	public static NortFrame getInstance() {
+		if (nortFrame == null) {
+			nortFrame = new NortFrame();
+		}
+		
 		return nortFrame;
 	}
 }

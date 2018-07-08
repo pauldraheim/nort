@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import ch.bbw.controller.NortListener;
+import ch.bbw.controller.Starter;
 import ch.bbw.view.NortComponentFactory;
-import ch.bbw.view.NortFrame;
 
 /**
  * The JPanel that the registering process occurs in
@@ -18,21 +18,21 @@ import ch.bbw.view.NortFrame;
 public class RegisterPane extends JPanel {
 
 	/**
-	 * Initializes all components of the LoginPane and returns the instance of the initialized LoginPane
-	 * @return The initialized LoginPane
+	 * Initializes all components of the RegisterPane and returns the instance of the initialized RegisterPane
+	 * @return The initialized RegisterPane
 	 */
 	public RegisterPane initGui() {
-		Insets insets = NortFrame.getInstance().getInsets();
+		Insets insets = Starter.getInstance().getNortFrame().getInsets();
 		
-		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
+		int spaceBetween = (Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right) / 200;
 		
 		setLayout(new GridLayout(7, 1, spaceBetween, spaceBetween));
 		setBackground(Color.BLACK);
 		setName("registerPane");
-		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right,
-				NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
+		setSize(Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right,
+				Starter.getInstance().getNortFrame().getHeight() - insets.top - insets.bottom);
 		
-		NortComponentFactory compFactory = NortComponentFactory.getInstance();
+		NortComponentFactory compFactory = Starter.getInstance().getNortComponentFactory();
 		
 		add(compFactory.createTitleLabel("registerWelcomeLabel", "Welcome to Nort! - Register"));
 		

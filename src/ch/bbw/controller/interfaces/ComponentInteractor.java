@@ -1,55 +1,55 @@
 package ch.bbw.controller.interfaces;
 
 /**
- * Interface that contains methods to get every value from GUI Components needed
+ * Interface that contains methods to interact with GUI components
  * @author 5ia16padraheim
  */
-public interface ComponentSetterGetter {
+public interface ComponentInteractor {
 	
 	/**
-	 * Returns the username entered in the LoginPane
+	 * Returns the username entered in the Login UI
 	 * @return The entered username
 	 */
 	public String getLoginUsername();
 
 	/**
-	 * Returns the password entered in the LoginPane
+	 * Returns the password entered in the Login UI
 	 * @return The entered password
 	 */
 	public String getLoginPassword();
 
 	/**
-	 * Returns the username entered in the RegisterPane
+	 * Returns the username entered in the Register UI
 	 * @return The entered username
 	 */
 	public String getRegisterUsername();
 
 	/**
-	 * Returns the password entered in the RegisterPane
+	 * Returns the password entered in the Register UI
 	 * @return The entered password
 	 */
 	public String getRegisterPassword();
 	
 	/**
-	 * Returns the username entered in the PlayerTwoPane login field
+	 * Returns the username entered in the PlayerTwo login field
 	 * @return The entered username
 	 */
 	public String getPlayerTwoLoginUsername();
 
 	/**
-	 * Returns the password entered in the PlayerTwoPane login field
+	 * Returns the password entered in the PlayerTwo login field
 	 * @return The entered password
 	 */
 	public String getPlayerTwoLoginPassword();
 
 	/**
-	 * Returns the username entered in the PlayerTwoPane register field
+	 * Returns the username entered in the PlayerTwo register field
 	 * @return The entered username
 	 */
 	public String getPlayerTwoRegisterUsername();
 
 	/**
-	 * Returns the password entered in the PlayerTwoPane register field
+	 * Returns the password entered in the PlayerTwo register field
 	 * @return The entered password
 	 */
 	public String getPlayerTwoRegisterPassword();

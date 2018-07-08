@@ -1,21 +1,24 @@
 package ch.bbw.services.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import ch.bbw.controller.Game;
+import ch.bbw.controller.NortGameLoop;
+import ch.bbw.model.LeaderboardPlacement;
 import ch.bbw.model.User;
 import ch.bbw.services.UserService;
 
+/**
+ * The UserService used for MySQL operations
+ * @author 5ia16padraheim
+ */
 public class MySQLUserService implements UserService {
 
 	@Override
-	public List<Object> getAllFromDataSource() {
-		List<Object> users = new ArrayList<>();
+	public List<User> getAllFromDataSource() {
+		List<User> users = new ArrayList<>();
 
 		ResultSet rs = null;
 
@@ -45,12 +48,10 @@ public class MySQLUserService implements UserService {
 	}
 
 	@Override
-	public void addToDataSource(Object objectToAdd) {
+	public void addToDataSource(User user) {
 		PreparedStatement st = null;
 
 		try {
-			User user = (User) objectToAdd;
-
 			String query = "insert into user (username, password, gameWins, roundWins) values (?, ?, ?, ?)";
 
 			st = DatabaseConnector.getInstance().getCon().prepareStatement(query);
@@ -111,11 +112,18 @@ public class MySQLUserService implements UserService {
 			}
 		}
 
-		return user;
+		if (user != null) {
+			if (NortGameLoop.getInstance().getPlayer1().getUser() == null 
+					|| !user.getUsername().equals(NortGameLoop.getInstance().getPlayer1().getUser().getUsername())) {
+				return user;
+			} else {
+				return null;
+			}
+		} else return user;
 	}
 
 	@Override
-	public Map<Integer, User> getLeaderboards() {
+	public List<LeaderboardPlacement> getLeaderboards() {
 		List<User> usersOrdered = new ArrayList<>();
 
 		ResultSet rs = null;
@@ -147,13 +155,13 @@ public class MySQLUserService implements UserService {
 			}
 		}
 
-		Map<Integer, User> leaderboards = new HashMap<>();
+		List<LeaderboardPlacement> leaderboards = new ArrayList<>();
 
 		for (int i = 0; i < usersOrdered.size(); i++) {
-			if (i < 3 || usersOrdered.get(i).getUsername().equals(Game.getInstance().getPlayer1().getUsername())
-					|| Game.getInstance().getPlayer2() != null && usersOrdered.get(i).getUsername()
-							.equals(Game.getInstance().getPlayer2().getUsername())) {
-				leaderboards.put(i + 1, usersOrdered.get(i));
+			if (i < 3 || usersOrdered.get(i).getUsername().equals(NortGameLoop.getInstance().getPlayer1().getUser().getUsername())
+					|| NortGameLoop.getInstance().getPlayer2().getUser() != null && usersOrdered.get(i).getUsername()
+							.equals(NortGameLoop.getInstance().getPlayer2().getUser().getUsername())) {
+				leaderboards.add(new LeaderboardPlacement(i + 1, usersOrdered.get(i)));
 			}
 		}
 
@@ -165,22 +173,22 @@ public class MySQLUserService implements UserService {
 		PreparedStatement st = null;
 
 		try {
-			User user1 = Game.getInstance().getPlayer1();
-			User user2 = Game.getInstance().getPlayer2();
+			User player1User = NortGameLoop.getInstance().getPlayer1().getUser();
+			User player2User = NortGameLoop.getInstance().getPlayer2().getUser();
 
 			String query = "update user set roundWins = ?, gameWins = ? where username = ?";
 
 			st = DatabaseConnector.getInstance().getCon().prepareStatement(query);
 
-			st.setInt(1, user1.getRoundWins());
-			st.setInt(2, user1.getGameWins());
-			st.setString(3, user1.getUsername());
+			st.setInt(1, player1User.getRoundWins());
+			st.setInt(2, player1User.getGameWins());
+			st.setString(3, player1User.getUsername());
 
 			st.executeUpdate();
 			
-			st.setInt(1, user2.getRoundWins());
-			st.setInt(2, user2.getGameWins());
-			st.setString(3, user2.getUsername());
+			st.setInt(1, player2User.getRoundWins());
+			st.setInt(2, player2User.getGameWins());
+			st.setString(3, player2User.getUsername());
 
 			st.executeUpdate();
 		} catch (Exception e) {
@@ -194,5 +202,28 @@ public class MySQLUserService implements UserService {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public User register(String username, String hashedPassword) {
+		boolean isUsernameTaken = false;
+		
+		for (User user : getAllFromDataSource()) {
+			if (user.getUsername().equals(username)) {
+				isUsernameTaken = true;
+			}
+		}
+
+		if (!isUsernameTaken) {
+			addToDataSource(new User(username, hashedPassword, 0, 0));
+
+			for (User user : getAllFromDataSource()) {
+				if (user.getUsername().equals(username)) {
+					return user;
+				}
+			}
+		}
+
+		return null;
 	}
 }

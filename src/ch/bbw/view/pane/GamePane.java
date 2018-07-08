@@ -9,10 +9,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ch.bbw.controller.Game;
+import ch.bbw.controller.NortGameLoop;
 import ch.bbw.controller.NortListener;
+import ch.bbw.controller.Starter;
 import ch.bbw.view.NortComponentFactory;
-import ch.bbw.view.NortFrame;
 
 /**
  * The JPanel containing the Game
@@ -25,34 +25,36 @@ public class GamePane extends JPanel {
 	 * @return The initialized GamePane
 	 */
 	public GamePane initGui() {
-		Insets insets = NortFrame.getInstance().getInsets();
+		Insets insets = Starter.getInstance().getNortFrame().getInsets();
 		
-		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
+		int spaceBetween = (Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right) / 200;
 		
 		setLayout(new BorderLayout());
 		setBackground(Color.BLACK);
 		setName("gamePane");
-		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, 
-				NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
+		setSize(Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right, 
+				Starter.getInstance().getNortFrame().getHeight() - insets.top - insets.bottom);
 		setFocusable(true);
 		
 		NortListener listener = new NortListener();
 		addKeyListener(listener);
 		
-		NortComponentFactory compFactory = NortComponentFactory.getInstance();
+		NortComponentFactory compFactory = Starter.getInstance().getNortComponentFactory();
 		
 		JPanel gamePlayerNamePane = new JPanel();
 		gamePlayerNamePane.setName("gamePlayerNamePane");
 		gamePlayerNamePane.setBackground(Color.BLACK);
 		gamePlayerNamePane.setLayout(new GridLayout(1, 3, spaceBetween, spaceBetween));
 		
-		JLabel gamePlayer1NameLabel = compFactory.createTitleLabel("gamePlayer1NameLabel", Game.getInstance().getPlayer1().getUsername());
+		JLabel gamePlayer1NameLabel = compFactory.createTitleLabel("gamePlayer1NameLabel", 
+				NortGameLoop.getInstance().getPlayer1().getUser().getUsername());
 		gamePlayer1NameLabel.setForeground(Color.CYAN);
 		gamePlayerNamePane.add(gamePlayer1NameLabel);
 		
 		gamePlayerNamePane.add(compFactory.createTitleLabel("gameVsLabel", "VS"));
 		
-		JLabel gamePlayer2NameLabel = compFactory.createTitleLabel("gamePlayer2NameLabel", Game.getInstance().getPlayer2().getUsername());
+		JLabel gamePlayer2NameLabel = compFactory.createTitleLabel("gamePlayer2NameLabel", 
+				NortGameLoop.getInstance().getPlayer2().getUser().getUsername());
 		gamePlayer2NameLabel.setForeground(Color.RED);
 		gamePlayerNamePane.add(gamePlayer2NameLabel);
 		
@@ -65,7 +67,8 @@ public class GamePane extends JPanel {
 		gameRoundInfoMenuPane.setBackground(Color.BLACK);
 		gameRoundInfoMenuPane.setLayout(new GridLayout(1, 5, spaceBetween, spaceBetween));
 		
-		JLabel gamePlayer1RoundsWonLabel = compFactory.createDescriptionLabel("gamePlayer1RoundsWonLabel", "Rounds won: 0");
+		JLabel gamePlayer1RoundsWonLabel = compFactory.createDescriptionLabel("gamePlayer1RoundsWonLabel", "0/" + 
+				NortGameLoop.getInstance().getRoundsForWin() + " won");
 		gamePlayer1RoundsWonLabel.setForeground(Color.CYAN);
 		gameRoundInfoMenuPane.add(gamePlayer1RoundsWonLabel);
 		
@@ -82,7 +85,8 @@ public class GamePane extends JPanel {
 		gamePlayer2ReadyLabel.setForeground(Color.RED);
 		gameRoundInfoMenuPane.add(gamePlayer2ReadyLabel);
 		
-		JLabel gamePlayer2RoundsWonLabel = compFactory.createDescriptionLabel("gamePlayer2RoundsWonLabel", "Rounds won: 0");
+		JLabel gamePlayer2RoundsWonLabel = compFactory.createDescriptionLabel("gamePlayer2RoundsWonLabel", "0/" + 
+				NortGameLoop.getInstance().getRoundsForWin() + " won");
 		gamePlayer2RoundsWonLabel.setForeground(Color.RED);
 		gameRoundInfoMenuPane.add(gamePlayer2RoundsWonLabel);
 		

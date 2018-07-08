@@ -9,12 +9,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import ch.bbw.controller.Starter;
+
+/**
+ * ComponentListener for resized SwingNortComponents
+ * @author 5ia16padraheim
+ */
 public class SwingNortComponentResizedListener implements ComponentListener {
 
 	@Override
 	public void componentResized(ComponentEvent e) {
 		
-		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
+		for (Component c : Starter.getInstance().getNortFrame().getContentPane().getComponents()) {
 			if (c instanceof JPanel) {
 				for (Component c2 : ((JPanel) c).getComponents()) {
 					resize(c2);
@@ -27,30 +33,36 @@ public class SwingNortComponentResizedListener implements ComponentListener {
 		}
 	}
 	
-	public void resize(Component c) {
+	/**
+	 * Resizes a component
+	 * @param The component that is to be resized
+	 */
+	private void resize(Component c) {
 		int dividend = 0;
 		
 		if (c instanceof JTable) {
 			JTable table = (JTable) c;
 			
-			Font font = new Font("Century Gothic", 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 40);
+			Font font = new Font("Century Gothic", 0, (Starter.getInstance().getNortFrame().getWidth() 
+					- Starter.getInstance().getNortFrame().getInsets().left * 2) / 40);
 			
 			table.setFont(font);
 			table.getTableHeader().setFont(font);
-			table.setRowHeight((NortFrame.getInstance().getHeight() - NortFrame.getInstance().getInsets().top -
-					NortFrame.getInstance().getInsets().bottom) / (3 * (table.getRowCount() + 1)));
+			table.setRowHeight((Starter.getInstance().getNortFrame().getHeight() - Starter.getInstance().getNortFrame().getInsets().top -
+					Starter.getInstance().getNortFrame().getInsets().bottom) / (3 * (table.getRowCount() + 1)));
 			
 			return;
 		}
 		else if (c.getFont().getSize() > 
-			(NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / 30) {
+			(Starter.getInstance().getNortFrame().getWidth() - Starter.getInstance().getNortFrame().getInsets().left * 2) / 30) {
 			dividend = 20;
 		}
 		else {
 			dividend = 40;
 		}
 
-		c.setFont(new Font("Century Gothic", 0, (NortFrame.getInstance().getWidth() - NortFrame.getInstance().getInsets().left * 2) / dividend));
+		c.setFont(new Font("Century Gothic", 0, (Starter.getInstance().getNortFrame().getWidth() 
+				- Starter.getInstance().getNortFrame().getInsets().left * 2) / dividend));
 	}
 
 	@Override

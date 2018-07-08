@@ -19,7 +19,7 @@ public class NortComponentFactory {
 	
 	private static final String FONT = "Century Gothic";
 	
-	private static final NortComponentFactory compFactory = new NortComponentFactory();
+	private static NortComponentFactory compFactory;
 	
 	private NortComponentFactory() {}
 	
@@ -155,6 +155,10 @@ public class NortComponentFactory {
 	}
 	
 	public static NortComponentFactory getInstance() {
+		if (compFactory == null) {
+			compFactory = new NortComponentFactory();
+		}
+		
 		return compFactory;
 	}
 }

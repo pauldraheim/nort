@@ -10,6 +10,10 @@ public enum Direction {
 	RIGHT,
 	DOWN;
 	
+	/**
+	 * Returns the opposite direction
+	 * @return The opposite direction
+	 */
 	public Direction getOppositeDirection() {
 		switch(this) {
 			case DOWN:

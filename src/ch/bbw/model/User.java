@@ -18,8 +18,8 @@ public class User {
 	
 	/**
 	 * Constructor that sets all values but the ID of the user
-	 * @param username
-	 * @param password
+	 * @param username The username of the user
+	 * @param password The hashed password of the user
 	 */
 	public User(String username, String password, int gameWins, int roundWins) {
 		this.username = username;
@@ -30,9 +30,9 @@ public class User {
 	
 	/**
 	 * Constructor that sets all values of a user
-	 * @param id
-	 * @param username
-	 * @param password
+	 * @param id The ID of the user
+	 * @param username The username of the user
+	 * @param password The hashed password of the user
 	 */
 	public User(int id, String username, String password, int gameWins, int roundWins) {
 		this.id = id;

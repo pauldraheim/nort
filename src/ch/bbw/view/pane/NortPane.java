@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import javax.swing.JPanel;
 
-import ch.bbw.controller.Game;
-import ch.bbw.controller.enums.GameCell;
-import ch.bbw.view.NortFrame;
+import ch.bbw.controller.NortGameLoop;
+import ch.bbw.controller.Starter;
+import ch.bbw.controller.enums.NortGameCell;
 
 /**
  * The JPanel which the game is drawn in
@@ -17,15 +17,15 @@ public class NortPane extends JPanel {
 	
 	/**
 	 * Initializes the NortPane
-	 * @return The initialized GamePane
+	 * @return The initialized NortPane
 	 */
 	public NortPane initGui() {
-		Insets insets = NortFrame.getInstance().getInsets();
+		Insets insets = Starter.getInstance().getNortFrame().getInsets();
 		
 		setBackground(Color.DARK_GRAY);
 		setName("nortPane");
-		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, 
-				NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
+		setSize(Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right, 
+				Starter.getInstance().getNortFrame().getHeight() - insets.top - insets.bottom);
 		
 		return this;
 	}
@@ -34,9 +34,9 @@ public class NortPane extends JPanel {
 	public void paintComponents(Graphics g) {
 		super.paintComponents(g);
 		
-		GameCell[][] board = Game.getInstance().getBoard();
+		NortGameCell[][] board = NortGameLoop.getInstance().getBoard();
 		
-		Insets insets = NortFrame.getInstance().getInsets();
+		Insets insets = Starter.getInstance().getNortFrame().getInsets();
 		
         g.setColor(Color.DARK_GRAY);
         g.fillRect(getX() + insets.left, getY() + insets.top, getWidth(), getHeight());

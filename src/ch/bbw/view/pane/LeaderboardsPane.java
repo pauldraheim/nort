@@ -3,8 +3,7 @@ package ch.bbw.view.pane;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -13,25 +12,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import ch.bbw.controller.NortListener;
-import ch.bbw.model.User;
+import ch.bbw.controller.Starter;
+import ch.bbw.model.LeaderboardPlacement;
 import ch.bbw.services.AbstractNortServiceProvider;
 import ch.bbw.view.NortComponentFactory;
 import ch.bbw.view.NortFrame;
 
 /**
- * The JPanel containing the Leaderboard
+ * The JPanel containing the Leaderboards
  * @author 5ia16padraheim
  */
-public class LeaderboardPane extends JPanel {
+public class LeaderboardsPane extends JPanel {
 	
 	/**
-	 * Initializes all components of the LeaderboardPane and returns the instance of the initialized LeaderboardPane
-	 * @return The initialized LeaderboardPane
+	 * Initializes all components of the LeaderboardsPane and returns the instance of the initialized LeaderboardsPane
+	 * @return The initialized LeaderboardsPane
 	 */
-	public LeaderboardPane initGui() {
-		Insets insets = NortFrame.getInstance().getInsets();
+	public LeaderboardsPane initGui() {
+		Insets insets = Starter.getInstance().getNortFrame().getInsets();
 		
-		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 200;
+		int spaceBetween = (Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right) / 200;
 		
 		setLayout(new GridLayout(3, 1, spaceBetween, spaceBetween));
 		setBackground(Color.BLACK);
@@ -39,23 +39,23 @@ public class LeaderboardPane extends JPanel {
 		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, 
 				NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
 		
-		NortComponentFactory compFactory = NortComponentFactory.getInstance();
+		NortComponentFactory compFactory = Starter.getInstance().getNortComponentFactory();
 		
 		add(compFactory.createTitleLabel("leaderboardTitleLabel", "Leaderboard"));
 		
 		String[] columnNames = {"Place", "User", "Game wins", "Round wins"};
 		
-		Map<Integer, User> leaderboards = AbstractNortServiceProvider.getInstance().getUserService().getLeaderboards();
+		List<LeaderboardPlacement> leaderboards = AbstractNortServiceProvider.getInstance().getUserService().getLeaderboards();
 		
 		Object[][] rowData = new Object[leaderboards.size()][columnNames.length];
 		
 		int row = 0;
 		
-		for (Entry<Integer, User> entry : leaderboards.entrySet()) {
-			rowData[row][0] = entry.getKey() + ".";
-			rowData[row][1] = entry.getValue().getUsername();
-			rowData[row][2] = entry.getValue().getGameWins();
-			rowData[row][3] = entry.getValue().getRoundWins();
+		for (LeaderboardPlacement leaderboardPlacement : leaderboards) {
+			rowData[row][0] = leaderboardPlacement.getPlacement() + ".";
+			rowData[row][1] = leaderboardPlacement.getUser().getUsername();
+			rowData[row][2] = leaderboardPlacement.getUser().getGameWins();
+			rowData[row][3] = leaderboardPlacement.getUser().getRoundWins();
 					
 			row++;
 		}

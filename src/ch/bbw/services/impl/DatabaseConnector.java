@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class DatabaseConnector {
 	
-	private static final DatabaseConnector dbCon = new DatabaseConnector();
+	private static DatabaseConnector dbCon;
 	
 	private Statement st;
 	
@@ -34,6 +34,10 @@ public class DatabaseConnector {
 	}
 	
 	public static DatabaseConnector getInstance() {
+		if (dbCon == null) {
+			dbCon = new DatabaseConnector();
+		}
+		
 		return dbCon;
 	}
 

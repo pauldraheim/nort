@@ -2,11 +2,12 @@ package ch.bbw.view;
 
 import javax.swing.JPanel;
 
+import ch.bbw.controller.Starter;
 import ch.bbw.view.enums.NortWindow;
 import ch.bbw.view.interfaces.Navigator;
 import ch.bbw.view.pane.GamePane;
 import ch.bbw.view.pane.GameSettingsPane;
-import ch.bbw.view.pane.LeaderboardPane;
+import ch.bbw.view.pane.LeaderboardsPane;
 import ch.bbw.view.pane.LoginPane;
 import ch.bbw.view.pane.MainMenuPane;
 import ch.bbw.view.pane.PlayerTwoPane;
@@ -18,7 +19,7 @@ import ch.bbw.view.pane.RegisterPane;
  */
 public class SwingNavigator implements Navigator {
 
-	private static final Navigator navigator = new SwingNavigator();
+	private static Navigator navigator;
 	
 	private SwingNavigator() {}
 	
@@ -35,8 +36,8 @@ public class SwingNavigator implements Navigator {
 				newContentPane = new GameSettingsPane().initGui();
 				
 				break;
-			case LEADERBOARD:
-				newContentPane = new LeaderboardPane().initGui();
+			case LEADERBOARDS:
+				newContentPane = new LeaderboardsPane().initGui();
 				
 				break;
 			case LOGIN:
@@ -57,11 +58,15 @@ public class SwingNavigator implements Navigator {
 				break;
 		}
 		
-		NortFrame.getInstance().setContentPane(newContentPane);
-		NortFrame.getInstance().getContentPane().requestFocusInWindow();
+		Starter.getInstance().getNortFrame().setContentPane(newContentPane);
+		Starter.getInstance().getNortFrame().getContentPane().requestFocusInWindow();
 	}
 	
 	public static Navigator getInstance() {
+		if (navigator == null) {
+			navigator = new SwingNavigator();
+		}
+		
 		return navigator;
 	}
 }

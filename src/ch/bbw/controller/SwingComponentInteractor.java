@@ -7,17 +7,20 @@ import javax.swing.JSlider;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ch.bbw.controller.interfaces.ComponentSetterGetter;
+import ch.bbw.controller.interfaces.ComponentInteractor;
 import ch.bbw.view.NortFrame;
 
 /**
- * Implements ComponentValueGetter and contains functionality for Swing
+ * Implements ComponentInteractor and contains functionality for Swing
  * components
- * 
  * @author 5ia16padraheim
  */
-public class SwingComponentSetterGetter implements ComponentSetterGetter {
+public class SwingComponentInteractor implements ComponentInteractor {
 
+	private static ComponentInteractor compInteractor;
+	
+	private SwingComponentInteractor() {}
+	
 	@Override
 	public String getLoginUsername() {
 		for (Component c : NortFrame.getInstance().getContentPane().getComponents()) {
@@ -209,7 +212,7 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 			if (c.getName().equals("gameRoundInfoMenuPane")) {
 				for (Component c2 : ((JPanel) c).getComponents()) {
 					if (c2.getName().equals("gamePlayer1RoundsWonLabel")) {
-						((JLabel) c2).setText(roundsWon + "/" + Game.getInstance().getRoundsForWin() + " won");
+						((JLabel) c2).setText(roundsWon + "/" + NortGameLoop.getInstance().getRoundsForWin() + " won");
 					}
 				}
 			}
@@ -222,10 +225,22 @@ public class SwingComponentSetterGetter implements ComponentSetterGetter {
 			if (c.getName().equals("gameRoundInfoMenuPane")) {
 				for (Component c2 : ((JPanel) c).getComponents()) {
 					if (c2.getName().equals("gamePlayer2RoundsWonLabel")) {
-						((JLabel) c2).setText(roundsWon + "/" + Game.getInstance().getRoundsForWin() + " won");
+						((JLabel) c2).setText(roundsWon + "/" + NortGameLoop.getInstance().getRoundsForWin() + " won");
 					}
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Returns the only instance of the ComponentInteractor and instantiates it if it is null
+	 * @return the only instance of the ComponentInteractor
+	 */
+	public static ComponentInteractor getInstance() {
+		if (compInteractor == null) {
+			compInteractor = new SwingComponentInteractor();
+		}
+		
+		return compInteractor;
 	}
 }

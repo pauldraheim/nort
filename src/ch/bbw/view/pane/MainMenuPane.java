@@ -15,10 +15,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ch.bbw.controller.Game;
+import ch.bbw.controller.NortGameLoop;
 import ch.bbw.controller.NortListener;
+import ch.bbw.controller.Starter;
 import ch.bbw.view.NortComponentFactory;
-import ch.bbw.view.NortFrame;
 
 /**
  * The JPanel containing the MainMenu
@@ -31,17 +31,17 @@ public class MainMenuPane extends JPanel {
 	 * @return The initialized MainMenuPane
 	 */
 	public MainMenuPane initGui() {
-		Insets insets = NortFrame.getInstance().getInsets();
+		Insets insets = Starter.getInstance().getNortFrame().getInsets();
 		
-		int spaceBetween = (NortFrame.getInstance().getWidth() - insets.left - insets.right) / 500;
+		int spaceBetween = (Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right) / 500;
 		
 		setLayout(new GridLayout(2, 1, spaceBetween, spaceBetween));
 		setBackground(Color.BLACK);
 		setName("mainMenuPane");
-		setSize(NortFrame.getInstance().getWidth() - insets.left - insets.right, 
-				NortFrame.getInstance().getHeight() - insets.top - insets.bottom);
+		setSize(Starter.getInstance().getNortFrame().getWidth() - insets.left - insets.right, 
+				Starter.getInstance().getNortFrame().getHeight() - insets.top - insets.bottom);
 		
-		NortComponentFactory compFactory = NortComponentFactory.getInstance();
+		NortComponentFactory compFactory = Starter.getInstance().getNortComponentFactory();
 		
 		JPanel mainMenuLabelPanel = new JPanel();
 		mainMenuLabelPanel.setName("mainMenuLabelPanel");
@@ -59,11 +59,12 @@ public class MainMenuPane extends JPanel {
 		
 		String players= "";
 		
-		if (Game.getInstance().getPlayer2() != null) {
-			players = "Player 1: " + Game.getInstance().getPlayer1().getUsername() + ", Player 2: " + Game.getInstance().getPlayer2().getUsername();
+		if (NortGameLoop.getInstance().getPlayer2().getUser() != null) {
+			players = "Player 1: " + NortGameLoop.getInstance().getPlayer1().getUser().getUsername() + 
+					", Player 2: " + NortGameLoop.getInstance().getPlayer2().getUser().getUsername();
 		} 
 		else {
-			players = "Player 1: " + Game.getInstance().getPlayer1().getUsername() + ", Player 2: Not logged in";
+			players = "Player 1: " + NortGameLoop.getInstance().getPlayer1().getUser().getUsername() + ", Player 2: Not logged in";
 		}
 		
 		mainMenuLabelPanel.add(compFactory.createDescriptionLabel("mainMenuPlayersLabel", players));
